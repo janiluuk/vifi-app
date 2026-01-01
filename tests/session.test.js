@@ -247,9 +247,13 @@ describe('FilmSession Model', () => {
     });
 
     test('should update invalid updated_at date', () => {
-      // Mock isValidDate function
+      // Mock isValidDate function - more accurate to actual implementation
       const isValidDate = jest.fn((dateStr) => {
-        return dateStr && dateStr !== '0000-00-00 00:00:00';
+        if (!dateStr || dateStr === '0000-00-00 00:00:00') {
+          return false;
+        }
+        const parsed = Date.parse(dateStr);
+        return !isNaN(parsed);
       });
       
       const parse = function(data) {
