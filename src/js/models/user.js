@@ -92,7 +92,7 @@ App.User.Ticket = Backbone.Model.extend({
      */
     getValidityText: function(date) {
         if (!date) date = this.get("validto");
-        if (typeof(date) != "undefined") {
+        if (typeof(date) !== "undefined") {
             var validityTime = App.Utils.stringToDate(date);
             return App.Utils.countDownText(validityTime);
         }
@@ -147,7 +147,7 @@ App.User.Ticket = Backbone.Model.extend({
 
     parseDateString: function(string) {
         var date = new Date(string);
-        if (null !== date.toJSON()) {
+        if (date.toJSON() !== null) {
             return date;
         }
         return false;
@@ -194,7 +194,7 @@ App.User.CookiePurchases = Backbone.Model.extend({
     getPurchases: function() {
         $log("Checking for new purchases");
         var films = this.getNewPurchases();
-        if (typeof(films) == "undefined" || _.isEmpty(films) ||  films.length < 1) {
+        if (typeof(films) === "undefined" || _.isEmpty(films) ||  films.length < 1) {
             $log("No new purchases");
             return [];
         }
@@ -245,13 +245,13 @@ App.User.CookiePurchases = Backbone.Model.extend({
         var filmlist = this.getPurchases();
         if (!id || _.isEmpty(filmlist)) return false;
         var filteredlist = _.reject(filmlist, function(item) {
-            if (typeof item.vod_id != "undefined") return item.vod_id == id.toString();
+            if (typeof item.vod_id !== "undefined") return item.vod_id == id.toString();
         });
         if (_.size(filteredlist) == _.size(filmlist)) {
             $log("Film " + id + " is not in cookies, cannot remove");
             return filmlist;
         }
-        if (true === _.isEmpty(filteredlist)) {
+        if (_.isEmpty(filteredlist) === true) {
             this.clearNewPurchases();
         } else {
             $log("Removed film " + id + " from cookies");
@@ -269,11 +269,11 @@ App.User.CookiePurchases = Backbone.Model.extend({
     cleanPurchases: function() {
         var _this = this;
         var films = this.getPurchases();
-        if (typeof(films) == "undefined" || _.isEmpty(films)) {
+        if (typeof(films) === "undefined" || _.isEmpty(films)) {
             return false;
         }
         var new_list = _.reject(films, function(item) {
-            if (typeof(item.valid_to) == "undefined") return true;
+            if (typeof(item.valid_to) === "undefined") return true;
             if (App.Utils.dateExpired(item.valid_to)) {
                 return true;
             }

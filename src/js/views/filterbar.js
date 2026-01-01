@@ -83,7 +83,7 @@ App.Views.FilterView = Backbone.View.extend({
 
             var val = decodeURIComponent(_this.options.state.get(option));
 
-            if ("undefined" != val && val != "") {
+            if (val != "undefined" && val != "") {
 
                 var parts = val.split(';');
 

@@ -352,7 +352,7 @@ App.Views.UserCollectionView = Backbone.View.extend({
         var length = 0;
         var collection = [];
 
-        if ("undefined" == typeof app.usercollection) {
+        if (typeof app.usercollection === "undefined") {
            this.$filmCollectionHolder.append(
                 ich.emptyListTemplate({
                     text: tr("No purchases")
@@ -428,7 +428,7 @@ App.Views.QuickbarView = App.Views.UserCollectionView.extend({
     showMoviePage: function(e) {
         app.quickmenu.trigger("quickbar:close");        
         var film = app.collection.originalCollection.get(this.model.get("id"));
-        if (typeof film == "undefined") return false;
+        if (typeof film === "undefined") return false;
         var url = film.get("seo_friendly_url");
 
         app.router.navigate(url, {
@@ -439,7 +439,7 @@ App.Views.QuickbarView = App.Views.UserCollectionView.extend({
     },
     render: function() {
         var filmitem = this.model.getFilm();
-        if (typeof filmitem == "undefined") return false;
+        if (typeof filmitem === "undefined") return false;
         this.$el.html(ich.userfilmitemTemplate(filmitem.toJSON()));
         return this;
     }

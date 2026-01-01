@@ -232,7 +232,8 @@ describe('Video Player', () => {
       };
       
       const getPosition = (videoId) => {
-        return savedPositions[videoId]?.position || 0;
+        const saved = savedPositions[videoId];
+        return saved ? saved.position : 0;
       };
       
       expect(getPosition('123')).toBe(1800);

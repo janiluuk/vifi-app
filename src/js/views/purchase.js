@@ -210,7 +210,7 @@ App.Views.PaymentDialog = Backbone.View.extend({
             return item.get("identifier") == el.attr("id");
         }));
 
-        if (method && typeof(method.get) != "undefined") {
+        if (method && typeof(method.get) !== "undefined") {
             this.setSelectedMethod(method.get("identifier"));
             this.payment.set("method_id", method.get("id"));
             this.updateUI();

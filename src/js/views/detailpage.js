@@ -54,10 +54,10 @@ App.Views.MovieDetailView = App.Views.Page.extend({
         window.disqus_identifier = this.model.get("seo_friendly_url");
         window.disqus_title = this.model.get("title");
         window.disqus_url = window.location.href.replace("#", "#!");
-        if ("undefined" == typeof(DISQUS)) {
+        if (typeof(DISQUS) === "undefined") {
             initDisqus();
         }
-        if (typeof(DISQUS) != "undefined") {
+        if (typeof(DISQUS) !== "undefined") {
             resetDisqus(this.model.get("seo_friendly_url"), window.disqus_url, window.disqus_url);
         }
     },
@@ -109,7 +109,7 @@ App.Views.MovieDetailView = App.Views.Page.extend({
         } else this.isotope.isotope('layout');
     },
     enableYoutubePlayer: function() {
-        if (typeof(YT) != "undefined") return false;
+        if (typeof(YT) !== "undefined") return false;
         $("#youtubeplayer").remove();
         var tag = document.createElement('script');
         tag.id = "youtubeplayer";

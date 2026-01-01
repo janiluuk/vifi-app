@@ -25,7 +25,12 @@ App.Settings = {
         },
         Cookies: {
             cookie_name: 'vifi_session',
-            cookie_options: {path : '/', domain: process.env.COOKIE_DOMAIN || '.example.com'},
+            cookie_options: {
+                path : '/', 
+                domain: process.env.COOKIE_DOMAIN || '.example.com',
+                secure: true,  // Only send over HTTPS
+                sameSite: 'Lax'  // CSRF protection
+            },
             purchase_cookie_name: 'film',
         },
         /** Image settings **/

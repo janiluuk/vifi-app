@@ -27,7 +27,7 @@ describe('App.Utils - Additional Functions', () => {
       if (width) url += "&w=" + width;
       if (height) url += "&h=" + height;
       if (zc) url += "&zc=" + zc;
-      if (a && typeof a == "string") url += "&a=" + a;
+      if (a && typeof a === "string") url += "&a=" + a;
       return url;
     };
 
@@ -99,7 +99,7 @@ describe('App.Utils - Additional Functions', () => {
     // but it's not adjusted for display. This test reflects the actual implementation.
     global.App.Utils.dateToHumanreadable = function(s) {
       if (!s) return false;
-      if ("string" == typeof(s)) {
+      if (typeof(s) === "string") {
         s = new Date(Date.parse(s));
       }
 

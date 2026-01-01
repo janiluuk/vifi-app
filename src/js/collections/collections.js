@@ -161,7 +161,7 @@ App.Collections.UserCollection = Backbone.Collection.extend({
         var _this = this;
         var refresh = false;
         this.models.forEach(function(ticket) {
-            if ("undefined" == typeof ticket) {
+            if (typeof ticket === "undefined") {
                 $log("[COLLECTION] Got INVALID ticket");
                 return;
             }
@@ -275,7 +275,7 @@ App.Collections.CookieCollection = Backbone.Collection.extend({
         }
         var that = this;
         this.each(function(existingModel) {
-            if ("undefined" == typeof(cookieObjects[existingModel])) {
+            if (typeof(cookieObjects[existingModel]) === "undefined") {
                 existingModel.destroy();
                 that.remove(existingModel);
             }

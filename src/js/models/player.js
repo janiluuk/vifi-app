@@ -114,7 +114,7 @@ App.Player.MediaPlayer = Backbone.Model.extend({
             });
         }
 
-        if (typeof(item) != "undefined" && _.isEmpty(item) !== true) {
+        if (typeof(item) !== "undefined" && _.isEmpty(item) !== true) {
             var file = item[0].file;
             this.loadSubtitles(item[0]);
         } else {
@@ -307,7 +307,7 @@ App.Player.Platforms.Core = {
             return false;
         }
 
-        if (this.plugin && !this.plugin.paused && (typeof(this._videoElement.playbackRate) != 'undefined' && this._videoElement.playbackRate != 1)) {
+        if (this.plugin && !this.plugin.paused && (typeof(this._videoElement.playbackRate) !== 'undefined' && this._videoElement.playbackRate != 1)) {
             $log(" Restting Playback Rate");
             this._videoElement.playbackRate = 1;
         } else if (this._videoElement && this.currentStream == null) {
