@@ -404,17 +404,18 @@ describe('App.Platform Constructor', () => {
   describe('key mappings', () => {
     test('should have standard keyboard key codes', () => {
       const keys = {
-        KEY_RETURN: 8,
+        KEY_RETURN: 13,  // Enter key
         KEY_UP: 38,
         KEY_DOWN: 40,
         KEY_LEFT: 37,
         KEY_RIGHT: 39,
         KEY_ENTER: 13,
-        KEY_BACK: 8,
+        KEY_BACK: 8,     // Backspace key
         KEY_CANCEL: 27
       };
       
       expect(keys.KEY_ENTER).toBe(13);
+      expect(keys.KEY_RETURN).toBe(13);  // Return is same as Enter
       expect(keys.KEY_UP).toBe(38);
       expect(keys.KEY_DOWN).toBe(40);
       expect(keys.KEY_LEFT).toBe(37);

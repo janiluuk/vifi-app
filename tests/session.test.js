@@ -256,7 +256,7 @@ describe('FilmSession Model', () => {
         if (!data.created_at) {
           data.created_at = new Date().toJSON();
         }
-        if (!isValidDate(data.updated_at) || data.updated_at === '0000-00-00 00:00:00') {
+        if (!isValidDate(data.updated_at)) {
           data.updated_at = new Date().toJSON();
         }
         return data;

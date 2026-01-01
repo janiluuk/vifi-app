@@ -21,7 +21,7 @@ services:
         - SITE_NAME=${SITE_NAME:-Vifi Local}
         - DISQUS_SHORTNAME=${DISQUS_SHORTNAME:-vifi}
         # Keys & integrations
-        - API_KEY=${API_KEY:-dev-api-key}
+        - API_KEY=${API_KEY:-}
         - FACEBOOK_APP_ID=${FACEBOOK_APP_ID}
         - GOOGLE_ANALYTICS_CODE=${GOOGLE_ANALYTICS_CODE:-}
         - SENTRY_DSN=${SENTRY_DSN}
