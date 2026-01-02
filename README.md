@@ -193,7 +193,27 @@ npm run build
 
 ### Docker Deployment
 
-The application includes Docker support for easy deployment. There are two Dockerfile options:
+The application includes comprehensive Docker support for easy deployment with multiple options for different scenarios.
+
+**📖 For detailed Docker instructions, see [DOCKER.md](DOCKER.md)**
+
+**Quick Start (Localhost):**
+```bash
+cp .env.local.example .env
+docker compose up -d
+# Access at http://localhost:8080
+```
+
+There are three Docker Compose configurations available:
+- **docker-compose.yml** - Full production build with environment control
+- **docker-compose.simple.yml** - Quick serve of pre-built dist/ folder
+- **docker-compose.dev.yml** - Development mode with hot reload
+
+For detailed instructions on each option, troubleshooting, and advanced configurations, see [DOCKER.md](DOCKER.md).
+
+#### Standard Dockerfile Options
+
+There are two Dockerfile options:
 
 1. **Dockerfile** (recommended) - Serves pre-built `dist/` folder
 2. **Dockerfile.build** - Multi-stage build (may have npm issues in some environments)
@@ -236,10 +256,20 @@ docker run -p 8080:80 vifi-frontend
 
 #### Using Docker Compose
 
+Three docker-compose configurations are available depending on your needs:
+
+##### Option 1: Full Build (Recommended for Production)
+
+Uses `docker-compose.yml` - Builds the application inside Docker with all environment variables.
+
 1. **Create or edit `.env` file** with your configuration:
 
 ```bash
-cp .env.example .env
+# For localhost development
+cp .env.local.example .env
+
+# For production, use .env.example
+# cp .env.example .env
 # Edit .env with your values
 ```
 
@@ -247,16 +277,44 @@ cp .env.example .env
 
 ```bash
 # Build and start the container
-docker-compose up -d
+docker compose up -d
 
 # View logs
-docker-compose logs -f
+docker compose logs -f
 
 # Stop the container
-docker-compose down
+docker compose down
 ```
 
 The application will be available at `http://localhost:8080`.
+
+##### Option 2: Simple Serve (Fastest for Local Testing)
+
+Uses `docker-compose.simple.yml` - Serves pre-built `dist/` folder. Build locally first:
+
+```bash
+# 1. Build the application
+npm run build
+
+# 2. Start the server
+docker compose -f docker-compose.simple.yml up -d
+
+# The application will be available at http://localhost:8080
+```
+
+##### Option 3: Development Mode with Hot Reload
+
+Uses `docker-compose.dev.yml` - Runs webpack in watch mode for development:
+
+```bash
+# Start development environment
+docker compose -f docker-compose.dev.yml up
+
+# The build output will be in dist/ and served at http://localhost:8080
+# Webpack watch mode runs on http://localhost:3000
+```
+
+**Note:** For any docker compose commands, you can use either `docker-compose` (older) or `docker compose` (newer Docker CLI plugin).
 
 #### Docker Environment Variables
 
@@ -574,12 +632,25 @@ Tests are located in the `tests/` directory:
 
 ```
 tests/
-├── utils.test.js          # Utility function tests
-├── user.test.js           # User/cookie function tests
-├── facebook.test.js       # Facebook integration tests
-├── iteration.test.js      # Safe property iteration tests
-└── README.md              # Test documentation
+├── utils.test.js              # Utility function tests (time conversion, date handling)
+├── utils-additional.test.js   # Additional utility tests (ticket validation, etc.)
+├── user.test.js               # User/cookie function tests
+├── facebook.test.js           # Facebook integration tests
+├── iteration.test.js          # Safe property iteration tests
+├── jquery.test.js             # jQuery helper function tests
+├── session.test.js            # Session management and refresh tests (NEW)
+├── forms.test.js              # Form validation and view tests (NEW)
+├── models.test.js             # Base model and API functionality tests (NEW)
+├── platform.test.js           # Platform detection and initialization tests (NEW)
+└── README.md                  # Test documentation
 ```
+
+**Recent Test Additions:**
+- Added **session.test.js** with 56 tests covering FilmSession model functionality
+- Added **forms.test.js** with 30 tests for form validation and password handling
+- Added **models.test.js** with 52 tests for ApiModel, CookieModel, Film, and Event models
+- Added **platform.test.js** with 45 tests for platform detection and helper functions
+- **Total: 183 tests** covering critical application functionality
 
 See [tests/README.md](tests/README.md) for more details about the test suite.
 
