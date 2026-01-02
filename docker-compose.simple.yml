@@ -1,0 +1,21 @@
+version: '3.8'
+
+# Simple docker-compose for serving pre-built application
+# Use this after building locally with: npm run build
+# Usage: docker-compose -f docker-compose.simple.yml up
+
+services:
+  frontend:
+    image: nginx:alpine
+    volumes:
+      - ./dist:/usr/share/nginx/html:ro
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    ports:
+      - "${PORT:-8080}:80"
+    restart: unless-stopped
+    networks:
+      - vifi-network
+
+networks:
+  vifi-network:
+    driver: bridge

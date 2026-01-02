@@ -7,35 +7,41 @@ services:
       dockerfile: Dockerfile.build
       args:
         # Core URLs - customize these for your environment
-        - API_URL=${API_URL:-//api.example.com/api/}
-        - HLS_URL=${HLS_URL:-https://media.example.com/vod/vod}
-        - MP4_URL=${MP4_URL:-//cdn.example.com/zsf/}
-        - RTMP_URL=${RTMP_URL:-rtmp://media.example.com/vod}
-        - SUBTITLES_URL=${SUBTITLES_URL:-//cdn.example.com/subs/}
-        - IMAGE_OPTIMIZER_URL=${IMAGE_OPTIMIZER_URL:-//cdn.example.com/files/images/image.php}
-        - SPEEDTEST_URL=${SPEEDTEST_URL:-//cdn.example.com/files/bwtest.jpg}
-        - CHANNEL_URL=${CHANNEL_URL:-//www.example.com/channel.html}
-        - CACHED_INIT_URL=${CACHED_INIT_URL:-//www.example.com/init.json}
-        - ANONYMOUS_USERNAME=${ANONYMOUS_USERNAME:-anonymous@example.com}
+        - API_URL=${API_URL:-//localhost:3000/api/}
+        - HLS_URL=${HLS_URL:-http://localhost:8081/vod/vod}
+        - MP4_URL=${MP4_URL:-//localhost:8081/zsf/}
+        - RTMP_URL=${RTMP_URL:-rtmp://localhost:1935/vod}
+        - SUBTITLES_URL=${SUBTITLES_URL:-//localhost:8081/subs/}
+        - IMAGE_OPTIMIZER_URL=${IMAGE_OPTIMIZER_URL:-//localhost:8081/files/images/image.php}
+        - SPEEDTEST_URL=${SPEEDTEST_URL:-//localhost:8081/files/bwtest.jpg}
+        - CHANNEL_URL=${CHANNEL_URL:-//localhost:8080/channel.html}
+        - CACHED_INIT_URL=${CACHED_INIT_URL:-//localhost:8080/init.json}
+        - ANONYMOUS_USERNAME=${ANONYMOUS_USERNAME:-anonymous@localhost}
         # App settings
-        - SITE_NAME=${SITE_NAME:-Vifi}
+        - SITE_NAME=${SITE_NAME:-Vifi Local}
         - DISQUS_SHORTNAME=${DISQUS_SHORTNAME:-vifi}
         # Keys & integrations
-        - API_KEY=${API_KEY}
+        - API_KEY=${API_KEY:-}
         - FACEBOOK_APP_ID=${FACEBOOK_APP_ID}
-        - GOOGLE_ANALYTICS_CODE=${GOOGLE_ANALYTICS_CODE:-UA-XXXXX-1}
+        - GOOGLE_ANALYTICS_CODE=${GOOGLE_ANALYTICS_CODE:-}
         - SENTRY_DSN=${SENTRY_DSN}
         # Social media & external links
-        - WWW_URL=${WWW_URL:-//www.example.com}
+        - WWW_URL=${WWW_URL:-//localhost:8080}
         - SOCIAL_FACEBOOK_URL=${SOCIAL_FACEBOOK_URL:-https://www.facebook.com/pages/Vifiee/385723814833754}
         - SOCIAL_TWITTER_URL=${SOCIAL_TWITTER_URL:-https://twitter.com/vifi_ee}
-        - RSS_FEED_URL=${RSS_FEED_URL:-//www.example.com/feed}
+        - RSS_FEED_URL=${RSS_FEED_URL:-//localhost:8080/feed}
         # Support & contact information
         - SUPPORT_PHONE=${SUPPORT_PHONE:-+372 58 667 570}
-        - SUPPORT_EMAIL=${SUPPORT_EMAIL:-support@example.com}
-        - PRIVACY_URL=${PRIVACY_URL:-//www.example.com/privacy}
+        - SUPPORT_EMAIL=${SUPPORT_EMAIL:-support@localhost}
+        - PRIVACY_URL=${PRIVACY_URL:-//localhost:8080/privacy}
     ports:
-      - "8080:80"
+      - "${PORT:-8080}:80"
     restart: unless-stopped
     environment:
       - NODE_ENV=production
+    networks:
+      - vifi-network
+
+networks:
+  vifi-network:
+    driver: bridge
