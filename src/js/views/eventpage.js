@@ -109,7 +109,7 @@ App.Views.EventDetailView = App.Views.Page.extend({
 
             this.content.fetch();
             
-            if (_this.content.get('status') == 'live')
+            if (_this.content.get('status') === 'live')
                 this.initPlayer();
             else {
                 this.onStatusChange();
@@ -227,7 +227,7 @@ App.Views.EventDetailView = App.Views.Page.extend({
 
         ticket.content.fetch().done(function(item) {
             deferred.resolve(ticket.content);
-        }).error(function(err) { deferred.reject(err); console.log(err); });
+        }).error(function(err) { deferred.reject(err); });
         return deferred;
     },
     /**

@@ -263,9 +263,8 @@ describe('jQuery 3.7.1', () => {
     
     // Test that we can call ready without errors
     // Note: In some test environments, ready may not fire synchronously
-    let readyCalled = false;
     $(document).ready(function() {
-      readyCalled = true;
+      // Ready handler executed
     });
     
     // Ready should exist and be callable (behavior may vary in test environment)

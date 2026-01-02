@@ -53,7 +53,7 @@ _.extend(App.Models.ApiModel.prototype, {
             break;
         }
 
-        if (undefined == model || model == false) model = this;
+        if (undefined === model || model === false) model = this;
 
         _.extend(this.params, sessionParams.data);
 
@@ -103,9 +103,9 @@ App.Models.CookieModel = Backbone.Model.extend({
         },
 
         get: function (name) {
-            if(name == 'value') {
+            if(name === 'value') {
                 var value = this.attributes[name];
-                if(value[0] == '"') {
+                if(value[0] === '"') {
                     value = value.slice(1, value.length - 1);
                 }
                 return decodeURIComponent(value);
@@ -170,7 +170,7 @@ _.extend(App.Models.Film.prototype,  {
         if (id) imdb_id = id;
         else imdb_id = this.get("imdb_id");
 
-        if (undefined == imdb_id || imdb_id == "") return false;
+        if (undefined === imdb_id || imdb_id === "") return false;
         this.set("rt_ratings","");
         this.set("rt_links","");
 

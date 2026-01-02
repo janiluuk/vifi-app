@@ -23,7 +23,7 @@ App.Utils = {
     },
 
     translate: function(string) {
-        var str = _.filter(App.Translations[App.Settings.language], function(item,key) { if (key == string) return item});
+        var str = _.filter(App.Translations[App.Settings.language], function(item,key) { if (key === string) return item});
         if (!_.isEmpty(str)) return str[0];
         return string;
 
@@ -209,11 +209,11 @@ App.Utils = {
             if (days > 0) {
                 string+=days+tr("d")+", ";
             }
-            if (hours > 0 || (hours == 0 && days > 0)) {
+            if (hours > 0 || (hours === 0 && days > 0)) {
                 string+=hours+tr("hr");
             }
 
-            if (!include_minutes || (days == 0 && hours == 0 && minutes == 0)) {
+            if (!include_minutes || (days === 0 && hours === 0 && minutes === 0)) {
 
             } else {
                 string+=", "+ minutes+" "+tr("Min")+" ";
@@ -283,8 +283,8 @@ App.Utils.State = Backbone.Model.extend({
         var hashables = [];
         var dict = this.toJSON();
         for (var key in dict) {
-            if (dict.hasOwnProperty(key) && (!_.indexOf(_.keys(this.defaults), key) || (this.defaults[key] != dict[key])) && dict[key] != undefined) {
-                if (dict[key] != "") hashables.push(key + '=' + escape(dict[key]));
+            if (dict.hasOwnProperty(key) && (!_.indexOf(_.keys(this.defaults), key) || (this.defaults[key] !== dict[key])) && dict[key] !== undefined) {
+                if (dict[key] !== "") hashables.push(key + '=' + escape(dict[key]));
             }
         }
 
@@ -302,7 +302,7 @@ App.Utils.State = Backbone.Model.extend({
 
     isEmpty: function() {
        var len =  _.values(this.attributes).join("").length;
-       return len == 0 ? true : false;
+       return len === 0 ? true : false;
     },
 
     setDefault: function() {
@@ -310,7 +310,7 @@ App.Utils.State = Backbone.Model.extend({
         this.set(this.defaults);
     },
     isDefault: function() {
-       return _.values(this.defaults).join("") == _.values(this.attributes).join("");
+       return _.values(this.defaults).join("") === _.values(this.attributes).join("");
     },
 
     setFromUrl: function() {
@@ -331,7 +331,7 @@ App.Utils.State = Backbone.Model.extend({
     setFromHash: function(hash) {
         hash = hash.replace("?", "");
 
-        if (hash.length == 0)  {
+        if (hash.length === 0)  {
             var size = _.size(this.changedAttributes());
             if (size > 0) this.set(this.defaults);
             return true;
@@ -348,11 +348,11 @@ App.Utils.State = Backbone.Model.extend({
             if (typeof(value) !== "undefined") {
                 dict[prop] = value.length > 0 ? value : undefined;
             }
-            if (dict[prop] == undefined && !i) {
+            if (dict[prop] === undefined && !i) {
                 i = true;
             }
         });
-        if (dict.q != '')
+        if (dict.q !== '')
         dict = _.extend(this.emptyDefaults, {q: dict.q});
         this.set(dict);
         return i;
@@ -382,7 +382,7 @@ App.Utils.Api = Backbone.Model.extend({
     },
     onSuccess: function(data) {
         var translateable = data.substr(0,data.indexOf(':'));
-        if (translateable == "") {
+        if (translateable === "") {
             translateable = data;
         }
         var translated = App.Utils.translate(translateable);
@@ -400,13 +400,13 @@ App.Utils.Api = Backbone.Model.extend({
         var msg = data.message || JSON.stringify(data);
 
         if (!silent) {
-            if (data.status == "ok") {
+            if (data.status === "ok") {
                 this.onSuccess(msg);
             }
-            if (data.status == "error") {
+            if (data.status === "error") {
                 this.onError(msg);
             }
-            if (data.status == "notice") {
+            if (data.status === "notice") {
                 this.onNotice(msg);
             }
         }
@@ -449,7 +449,7 @@ App.Utils.Notification = Backbone.Model.extend({
         var msg = '<span class="flash-inactive">'+new Date().toTimeString().split(" ")[0]+":</span> "+text+"<br/>";
         if (!amount) amount = 7500;
         var actionOutputEl = document.getElementById("flash-output");
-        if (actionOutputEl == null)
+        if (actionOutputEl === null)
             actionOutputEl = $("<div>").attr("id", "flash-output").html(msg).appendTo("body");
         else
             actionOutputEl.innerHTML += msg;

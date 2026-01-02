@@ -34,7 +34,7 @@ describe('FilmSession Model', () => {
   describe('onSetDuration', () => {
     test('should set timestamp when duration is positive', () => {
       const onSetDuration = function(duration) {
-        const seconds = parseInt(duration);
+        const seconds = parseInt(duration, 10);
         if (seconds > 0) {
           mockSession.set("timestamp", seconds);
         }
@@ -47,7 +47,7 @@ describe('FilmSession Model', () => {
 
     test('should not set timestamp when duration is zero', () => {
       const onSetDuration = function(duration) {
-        const seconds = parseInt(duration);
+        const seconds = parseInt(duration, 10);
         if (seconds > 0) {
           mockSession.set("timestamp", seconds);
         }
@@ -60,7 +60,7 @@ describe('FilmSession Model', () => {
 
     test('should not set timestamp when duration is negative', () => {
       const onSetDuration = function(duration) {
-        const seconds = parseInt(duration);
+        const seconds = parseInt(duration, 10);
         if (seconds > 0) {
           mockSession.set("timestamp", seconds);
         }
@@ -73,7 +73,7 @@ describe('FilmSession Model', () => {
 
     test('should parse float duration correctly', () => {
       const onSetDuration = function(duration) {
-        const seconds = parseInt(duration);
+        const seconds = parseInt(duration, 10);
         if (seconds > 0) {
           mockSession.set("timestamp", seconds);
         }

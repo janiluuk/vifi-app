@@ -17,8 +17,8 @@ describe('Safe Property Iteration', () => {
         const hashables = [];
         // BUG FIX: Added hasOwnProperty check and var declaration
         for (var key in dict) {
-          if (dict.hasOwnProperty(key) && dict[key] != undefined) {
-            if (dict[key] != "") {
+          if (dict.hasOwnProperty(key) && dict[key] !== undefined) {
+            if (dict[key] !== "") {
               hashables.push(key + '=' + escape(dict[key]));
             }
           }
@@ -54,8 +54,8 @@ describe('Safe Property Iteration', () => {
       const getQueryString = function(dict) {
         const hashables = [];
         for (var key in dict) {
-          if (dict.hasOwnProperty(key) && dict[key] != undefined) {
-            if (dict[key] != "") {
+          if (dict.hasOwnProperty(key) && dict[key] !== undefined) {
+            if (dict[key] !== "") {
               hashables.push(key + '=' + escape(dict[key]));
             }
           }
@@ -80,8 +80,8 @@ describe('Safe Property Iteration', () => {
         const hashables = [];
         // BUG FIX: Added var declaration to avoid global
         for (var key in dict) {
-          if (dict.hasOwnProperty(key) && dict[key] != undefined) {
-            if (dict[key] != "") {
+          if (dict.hasOwnProperty(key) && dict[key] !== undefined) {
+            if (dict[key] !== "") {
               hashables.push(key + '=' + escape(dict[key]));
             }
           }
@@ -108,8 +108,8 @@ describe('Safe Property Iteration', () => {
       const getQueryString = function(dict, addParams) {
         const hashables = [];
         for (var key in dict) {
-          if (dict.hasOwnProperty(key) && dict[key] != undefined) {
-            if (dict[key] != "") {
+          if (dict.hasOwnProperty(key) && dict[key] !== undefined) {
+            if (dict[key] !== "") {
               hashables.push(key + '=' + escape(dict[key]));
             }
           }

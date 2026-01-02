@@ -20,10 +20,10 @@ App.Player.MediaPlayer = Backbone.Model.extend({
         });
 
         this.playlist = new App.Player.Playlist;
-        if (options && undefined != options.session) {
+        if (options && undefined !== options.session) {
             this.set("session", options.session);
         }
-        if (options && undefined != options.movie) {
+        if (options && undefined !== options.movie) {
             this.set("movie", options.movie);
             this.load(options.movie);
         }
@@ -69,7 +69,7 @@ App.Player.MediaPlayer = Backbone.Model.extend({
 
     onPlayerError: function(evt) {
         if (!evt || !evt.fatal) return false;
-        if (evt.fatal == true) {
+        if (evt.fatal === true) {
             this.trigger("player:offline", evt.response);            
         }
     },
@@ -105,12 +105,12 @@ App.Player.MediaPlayer = Backbone.Model.extend({
     },
     onSubtitlesChange: function(code) {
 
-        if (code == "reset") {
+        if (code === "reset") {
             var item = this.content.get("subtitles");
         } else {
 
             var item = _.filter(this.content.get("subtitles"), function(item) {
-                return item.code == code;
+                return item.code === code;
             });
         }
 
@@ -125,7 +125,7 @@ App.Player.MediaPlayer = Backbone.Model.extend({
 
     onTimeUpdate: function(time) {
         var currentTime = Math.ceil(this.getCurrentTime() / 1000);
-        if (currentTime == this.currentTime) return;
+        if (currentTime === this.currentTime) return;
         this.currentTime = currentTime;
         this.trigger("player:timeupdate", currentTime);
     },
@@ -183,7 +183,7 @@ App.Player.MediaPlayer = Backbone.Model.extend({
      */
     getEndingTime: function(duration, offset) {
         if (!offset) offset = 0;
-        if (!duration || duration == "") return false;
+        if (!duration || duration === "") return false;
         duration = duration - offset;
         return App.Utils.minutesToTime(duration);
     },
@@ -307,10 +307,10 @@ App.Player.Platforms.Core = {
             return false;
         }
 
-        if (this.plugin && !this.plugin.paused && (typeof(this._videoElement.playbackRate) !== 'undefined' && this._videoElement.playbackRate != 1)) {
+        if (this.plugin && !this.plugin.paused && (typeof(this._videoElement.playbackRate) !== 'undefined' && this._videoElement.playbackRate !== 1)) {
             $log(" Restting Playback Rate");
             this._videoElement.playbackRate = 1;
-        } else if (this._videoElement && this.currentStream == null) {
+        } else if (this._videoElement && this.currentStream === null) {
             $log(" Playing Next File ")
             this._playVideo();
         } else if (this._videoElement) {
@@ -378,7 +378,7 @@ App.Player.Platforms.Core = {
     },
 
     _eventHandler: function(e) {
-        if (e.type != 'progress') $log(e.type);
+        if (e.type !== 'progress') $log(e.type);
         switch (e.type) {
             case 'progress':
                 this.trigger("mediaplayer:timeupdate", Math.round(e.currentTarget.currentTime * 1000));
@@ -410,7 +410,7 @@ App.Player.Platforms.Core = {
                 break;
             case 'volume':
                 $log(" VOLUME CHANGE EVENT ");
-                if (player.wasMuted != this.muted) {
+                if (player.wasMuted !== this.muted) {
                     this.trigger("mediaplayer:muted");
                 }
                 this.trigger("mediaplayer:volumechange", e.currentTarget.volume);
@@ -462,7 +462,7 @@ App.Player.Playlist = function() {
         return this.currentIndex - 1;
     },
     this.nextFile = function() {
-        if (this.currentIndex == this.files.length) {
+        if (this.currentIndex === this.files.length) {
             $log(" REACHED THE END OF PLAYLIST");
             this.resetIndex();
             if (!this.looping) return null;
@@ -511,7 +511,7 @@ App.Player.Playlist = function() {
     },
     this.getPlaylistFiles = function() {
         var content = this.nextFile();
-        if (this.getType() == 'event') {
+        if (this.getType() === 'event') {
             var files = this.generateEventPlaylistItem();
         } else {
             var files = this.generatePlaylistItem(content.src);
@@ -525,7 +525,7 @@ App.Player.Playlist = function() {
     }
     this.generatePlaylistItem = function(file) {
         if (!file) return false;
-        if (file[0] == '/') file = file.substring(1);
+        if (file[0] === '/') file = file.substring(1);
         var mp4_url = App.Settings.Player.mp4_url + file;
         var mpegurl = App.Settings.Player.hls_url + '/' + file + '/playlist.m3u8'
         var playlist_item = [
@@ -621,8 +621,8 @@ App.Player.Subtitles = Backbone.Model.extend({
 
     handleSubtitleSelection: function(sel) {
 
-        if (sel == "none") { this.disable(); return;}
-        if (sel == "reset") { sel = this.defaultCode; }
+        if (sel === "none") { this.disable(); return;}
+        if (sel === "reset") { sel = this.defaultCode; }
         if (this.subtitles) {
             this.loadLanguage(sel);
         }
@@ -745,7 +745,7 @@ App.Player.Subtitles = Backbone.Model.extend({
             }
 
             if (subtitle > 0) {
-                if (subtitle != this.currentSubtitle) {
+                if (subtitle !== this.currentSubtitle) {
                     if (currentTime > 0) this.trigger("subtitles:show", subtitledata[subtitle].t);
                     this.currentSubtitle = subtitle;
                     $log("Setting subtitle at " + currentTime + " - " + subtitledata[subtitle].t);

@@ -44,7 +44,7 @@ describe('App.Utils - Additional Functions', () => {
       var timeParts = s.split(' ')[1].split(':');
       if (_.isEmpty(timeParts[2])) timeParts[2] = 0;
 
-      return new Date(dateParts[0], parseInt(dateParts[1]) - 1, dateParts[2], timeParts[0], timeParts[1], timeParts[2], 0);
+      return new Date(dateParts[0], parseInt(dateParts[1], 10) - 1, dateParts[2], timeParts[0], timeParts[1], timeParts[2], 0);
     };
 
     // Define parseDateToHumanReadable function
@@ -62,7 +62,7 @@ describe('App.Utils - Additional Functions', () => {
     global.App.Utils.dateExpired = function(date) {
       if (!date) return true;
       if (!this.isValidDate(date)) {
-        console.log("EXPIRED TICKET with date:" + date);
+        console.log("EXPIRED TICKET with date:" + date); // eslint-disable-line no-console
         return true;
       }
       var parsedDate = Date.parse(date);

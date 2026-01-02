@@ -55,9 +55,9 @@ App.User.Ticket = Backbone.Model.extend({
             data.content.auth_code = data.auth_code;
             data.content.id = data.vod_id;
             var type = data.content.type;
-            if (type == 'vod') {
+            if (type === 'vod') {
                 this.content = new App.Models.FilmContent(data.content, {parse:true});
-            } else if (type == 'event') {
+            } else if (type === 'event') {
                 this.content = new App.Models.EventContent(data.content, {parse:true});
             }
 
@@ -245,9 +245,9 @@ App.User.CookiePurchases = Backbone.Model.extend({
         var filmlist = this.getPurchases();
         if (!id || _.isEmpty(filmlist)) return false;
         var filteredlist = _.reject(filmlist, function(item) {
-            if (typeof item.vod_id !== "undefined") return item.vod_id == id.toString();
+            if (typeof item.vod_id !== "undefined") return item.vod_id === id.toString();
         });
-        if (_.size(filteredlist) == _.size(filmlist)) {
+        if (_.size(filteredlist) === _.size(filmlist)) {
             $log("Film " + id + " is not in cookies, cannot remove");
             return filmlist;
         }
@@ -368,7 +368,7 @@ App.User.Profile = App.Models.ApiModel.extend({
     FBcallback: function() {
         var authId = this.session.get("auth_id");
         var email = this.get("email");
-        if (email == "" || authId == "") {
+        if (email === "" || authId === "") {
             $log("missing params, not doing fb callback");
             return false;
         }
@@ -386,7 +386,7 @@ App.User.Profile = App.Models.ApiModel.extend({
             password: password,
             oldpassword: oldpass
         }, function(data) {
-            if (data.status == "ok") {
+            if (data.status === "ok") {
                 this.trigger("user:changepassword:success", data.message);
             } else {
                 this.trigger("user:changepassword:fail", data.message);
@@ -398,7 +398,7 @@ App.User.Profile = App.Models.ApiModel.extend({
         app.api.call(["user", "recovery"], {
             email: email
         }, function(data) {
-            if (data.status == "ok") {
+            if (data.status === "ok") {
                 this.trigger("user:resetpassword:success", data);
             } else {
                 this.trigger("user:resetpassword:fail", data);
@@ -412,7 +412,7 @@ App.User.Profile = App.Models.ApiModel.extend({
             key: key,
             password: password
         }, function(data) {
-            if (data.status == "ok") {
+            if (data.status === "ok") {
                 this.trigger("user:recoverpassword:success", data);
             } else {
                 this.trigger("user:recoverpassword:fail", data);
@@ -421,9 +421,9 @@ App.User.Profile = App.Models.ApiModel.extend({
     },
     pair: function(code) {
         var email = this.get("email");
-        if (email == "" || code == "") return false;
+        if (email === "" || code === "") return false;
         app.api.call(["user", email, "pair", code], {}, function(res) {
-            if (res.status && res.status == "ok") {
+            if (res.status && res.status === "ok") {
                 setTimeout(function() {
                     this.trigger("user:pair:successful");
                     this.fetch();
@@ -433,19 +433,19 @@ App.User.Profile = App.Models.ApiModel.extend({
     },
     unpair: function(id) {
         var email = this.get("email");
-        if (email == "" || id == "") return false;
+        if (email === "" || id === "") return false;
         app.api.call(["user", email, "unpair", id], {}, function(res) {
-            if (res.status && res.status == "ok") this.trigger("user:unpair:success")
+            if (res.status && res.status === "ok") this.trigger("user:unpair:success")
         }.bind(this));
     },
     authorize: function() {
-        if (this.session.get("auth_id") == "") {
+        if (this.session.get("auth_id") === "") {
             return false;
         }
         var _this = this;
         this.fetch({
             success: function(data) {
-                if (this.get("user_id") != "") {
+                if (this.get("user_id") !== "") {
                     this.session.set("user_id", this.get("user_id"));
                     this.trigger("user:profile:login", this);
                     if (app.fbuser) {
@@ -458,7 +458,7 @@ App.User.Profile = App.Models.ApiModel.extend({
         }).done(function() {
                  if (app.fbuser) {
                         _this.trigger("user:facebook-connect", app.fbuser);
-                        if (app.fbuser.get("id") != "" && parseInt(app.fbuser.get("id")) > 0)
+                        if (app.fbuser.get("id") !== "" && parseInt(app.fbuser.get("id")) > 0)
                         _this.set("profile_picture", 'https://graph.facebook.com/' + app.fbuser.get("id") + '/picture')
                 }
 
@@ -525,22 +525,22 @@ App.User.Profile = App.Models.ApiModel.extend({
         return this.get("subscriber") === true ? true : false;
     },
     isAnonymous: function() {
-        if (this.get("email") == App.Settings.anonymous_username) return true;
-        if (this.get("role") == "" || this.get("role") == "Guest") return true;
+        if (this.get("email") === App.Settings.anonymous_username) return true;
+        if (this.get("role") === "" || this.get("role") === "Guest") return true;
         return false;
     },
     isRegistered: function() {
-        if (this.get("role") == "Registered customer") return true;
+        if (this.get("role") === "Registered customer") return true;
         return false;
     },
     getRole: function() {
         return this.get("role");
     },
     hasNewsletter: function() {
-        return this.get("newsletter") == "1";
+        return this.get("newsletter") === "1";
     },
     getLanguage: function() {
-        if (this.get("language") == "es") return "Estonian";
+        if (this.get("language") === "es") return "Estonian";
         else return "English";
     },
     checkPurchases: function() {

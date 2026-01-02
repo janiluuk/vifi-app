@@ -131,7 +131,7 @@ App.Views.LoginForm = Backbone.View.extend({
         var el = $("form#user-forgot-password button");
         e.preventDefault();
         var email = this.$("#forgot-password-email").val();
-        if (email == "") {
+        if (email === "") {
             this.onFail({
                 message: "E-mail is empty!"
             });
@@ -146,13 +146,13 @@ App.Views.LoginForm = Backbone.View.extend({
         var email = this.$("#register-email").val();
         var pass = this.$("#register-password").val();
         var passverify = this.$("#register-password-verify").val();
-        if (pass != passverify) {
+        if (pass !== passverify) {
             this.onFail({
                 message: tr("Passwords do not match") + "!"
             });
             return false;
         }
-        if (email == "" || pass == "" || passverify == "") {
+        if (email === "" || pass === "" || passverify === "") {
             this.onFail({
                 message: tr("Fill all the fields") + "!"
             });
@@ -299,7 +299,7 @@ App.Views.UserPairView = Backbone.View.extend({
     pair: function(e) {
         e.preventDefault();
         var code = $("#pairing-code").val();
-        if (code == "") {
+        if (code === "") {
             app.session.trigger("error", "You entered empty value :/");
         }
         this.model.trigger("user:pair", code);
@@ -362,7 +362,7 @@ App.Views.UserCollectionView = Backbone.View.extend({
         } 
 
         try {
-        if (length == 0) {
+        if (length === 0) {
             this.$filmCollectionHolder.empty();
         }
         if (app.usercollection.length > 0) {
@@ -385,7 +385,7 @@ App.Views.UserCollectionView = Backbone.View.extend({
             );
         }
         } catch (err) {
-            console.log(err);
+            // Error caught during user view rendering
             return this;
         }
         setTimeout(function() {
@@ -398,7 +398,7 @@ App.Views.UserCollectionView = Backbone.View.extend({
 
         var type = model.get("type");
 
-        if (type == 'event') {
+        if (type === 'event') {
             var filmView = new App.Views.UserEventView({
                 model: model
             });
@@ -484,12 +484,12 @@ App.Views.RecoveryView = App.Views.ContentView.extend({
         var key = this.$("#recover-key").val();
         var pass = this.$("#recover-password").val();
         var passverify = this.$("#recover-password-confirm").val();
-        if (pass != passverify) {
+        if (pass !== passverify) {
             this.onFail({
                 message: tr("Passwords do not match") + "!"
             });
         }
-        if (pass == "" || passverify == "") {
+        if (pass === "" || passverify === "") {
             this.onFail({
                 message: tr("Fill all the fields") + "!"
             });

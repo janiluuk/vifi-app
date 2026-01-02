@@ -33,13 +33,13 @@ App.Models.MobilePurchase = App.Models.ApiModel.extend({
 
     initialize: function(options) {
         this.options = options || {};
-        if (options && undefined != options.session) {
+        if (options && undefined !== options.session) {
             this.session = options.session;
         }
-        if (options && undefined != options.model) {
+        if (options && undefined !== options.model) {
             this.model = options.model;
         }
-        if (options && undefined != options.parent) {
+        if (options && undefined !== options.parent) {
             this.parent = options.parent;
         }
 
@@ -58,7 +58,7 @@ App.Models.MobilePurchase = App.Models.ApiModel.extend({
 
     initPayment: function() {
 
-        if (this.get("pending") == true) throw ("Payment already ongoing!");
+        if (this.get("pending") === true) throw ("Payment already ongoing!");
         this.sync("update").done(function(res) { this.onStatusReceive(res); }.bind(this));
     },
 
@@ -70,7 +70,7 @@ App.Models.MobilePurchase = App.Models.ApiModel.extend({
 
     requestPaymentStatus: function(callback) {
         var authToken = this.get("authToken");
-        if (!authToken || authToken == "") {
+        if (!authToken || authToken === "") {
             throw ("No auth token available to use for status check");
         }
         app.api.call(["payment/emtpayment", this.model.get("id")], {authToken: authToken}, callback);
@@ -92,7 +92,7 @@ App.Models.MobilePurchase = App.Models.ApiModel.extend({
 
         $log(res);
 
-        if (res.status == "PENDING") {
+        if (res.status === "PENDING") {
             this.trigger("purchase:mobile:start",res);
             this.startTimer();
             this.set("authToken", res.authToken);
@@ -102,17 +102,17 @@ App.Models.MobilePurchase = App.Models.ApiModel.extend({
             this.requestPaymentStatus(this.onStatusReceive);
         }
 
-        if (res.status == "fail" || res.status == "FAILED") {
+        if (res.status === "fail" || res.status === "FAILED") {
                this.set("status", "FAILED");
                this.set("statusMessage", tr(res.statusMessage));
                this.handleStatus();
         }
 
-        if (res.status == "PAYMENT") {
+        if (res.status === "PAYMENT") {
             this.set("status", res.status);
         }
 
-        if (res.status == "DONE") {
+        if (res.status === "DONE") {
             this.set("tickets", res.tickets);
             this.set("authToken", res.authToken);
             this.set("status", res.status);
@@ -149,7 +149,7 @@ App.Models.MobilePurchase = App.Models.ApiModel.extend({
             }
 
             /** If we have already received PAYMENT or DONE messages, don't fire a timeout **/
-            if (timeout > 0 && this.get("status") != "DONE" && this.get("status") != "PAYMENT") {
+            if (timeout > 0 && this.get("status") !== "DONE" && this.get("status") !== "PAYMENT") {
                 this.set("timeout",--timeout);
             } else {
 
@@ -194,14 +194,14 @@ App.Models.MobilePurchase = App.Models.ApiModel.extend({
 
         /* Waiting on phone call */
 
-        if (status == "PENDING") {
+        if (status === "PENDING") {
             this.trigger("purchase:mobile:pending");
             return false;
         }
 
         /* Payment acknowledged, start polling for final DONE status */
 
-        if (status == "PAYMENT") {
+        if (status === "PAYMENT") {
             this.trigger("purchase:mobile:success");
 
             this.paymentIval = setInterval(function() {
@@ -212,15 +212,15 @@ App.Models.MobilePurchase = App.Models.ApiModel.extend({
 
         /* Error occured */
 
-        if (status == "fail" || status == "FAILED") {
-            if (this.get("statusMessage") != "Unknown") {
+        if (status === "fail" || status === "FAILED") {
+            if (this.get("statusMessage") !== "Unknown") {
             this.trigger("purchase:mobile:error", this.get("statusMessage"));
             }
         }
 
         /* Received acknowledgement for successful payment */
 
-        if (status == "DONE") {
+        if (status === "DONE") {
 
             if (this.paymentIval) clearInterval(this.paymentIval);
 
@@ -290,10 +290,10 @@ App.Models.Purchase = Backbone.Model.extend({
     initialize: function(options) {
         this.options = options || {};
 
-        if (options && undefined != options.session) {
+        if (options && undefined !== options.session) {
             this.session = options.session;
         }
-        if (options && undefined != options.model) {
+        if (options && undefined !== options.model) {
             this.model = options.model;
         }
         this.set("price", this.model.get("price"));
@@ -321,24 +321,24 @@ App.Models.Purchase = Backbone.Model.extend({
 
     validateMethod: function(value, attr, computedState) {
 
-        if(value === 'code' && this.get("code").length == 0) {
+        if(value === 'code' && this.get("code").length === 0) {
             return 'Vale kood, proovi uuesti!';
         }
-        if(value !== 'code' && value !== 'mobile' && this.get("email").length == 0) {
+        if(value !== 'code' && value !== 'mobile' && this.get("email").length === 0) {
             return 'Vale E-mail, proovi uuesti!';
         }
     },
 
     validateTerms: function(value, attr, computedState) {
 
-        if(value == undefined && this.get("method") != "code" && this.get("method") != "mobile") {
+        if(value === undefined && this.get("method") !== "code" && this.get("method") !== "mobile") {
             return 'Please accept terms and conditions';
         }
     },
 
     paymentCallback: function(response) {
 
-        if (undefined != response && response.status && response.status == "Success") {
+        if (undefined !== response && response.status && response.status === "Success") {
 
             var profile = app.session.get("profile");
                 profile.once("purchase:successful", function() {
@@ -355,7 +355,7 @@ App.Models.Purchase = Backbone.Model.extend({
 
     getAnonymousToken: function(callback) {
         var email = this.get("email");
-        if (!email || email == "") email = this.session.get("profile").get("email");
+        if (!email || email === "") email = this.session.get("profile").get("email");
 
         this.session.once("user:login:success", callback, this);
 
@@ -411,7 +411,7 @@ App.Models.Purchase = Backbone.Model.extend({
 
     purchase: function() {
 
-        if (!this.session.get("auth_id") || this.session.get("auth_id").length == 0 ) {
+        if (!this.session.get("auth_id") || this.session.get("auth_id").length === 0 ) {
             this.getAnonymousToken(this.purchase);
             return false;
         }
@@ -426,7 +426,7 @@ App.Models.Purchase = Backbone.Model.extend({
 
         var method = this.get("method");
 
-        if (method == "code") {
+        if (method === "code") {
             var id = this.model.get("id");
             var type = this.model.type;
 
@@ -435,7 +435,7 @@ App.Models.Purchase = Backbone.Model.extend({
             return false;
         }
 
-        if (this.get("method_id") != "") {
+        if (this.get("method_id") !== "") {
             var form = this.generatePurchaseForm();
 
             $("#content-container").append(form);
@@ -519,12 +519,12 @@ App.Models.PurchaseSubscription = App.Models.Purchase.extend({
 
         var method = this.get("method");
 
-        if (!this.session.get("auth_id") || this.session.get("auth_id").length ==0) {
+        if (!this.session.get("auth_id") || this.session.get("auth_id").length ===0) {
             this.getAnonymousToken(this.purchase);
             return false;
         }
 
-        if (method == "code") {
+        if (method === "code") {
             var id = this.model.get("id");
             var code = this.get("code");
             this.sendCodeAuth(this.onCodeAuth, id, code);
@@ -545,7 +545,7 @@ App.Models.PurchaseSubscription = App.Models.Purchase.extend({
 
     paymentCallback: function(response) {
 
-        if (undefined != response && response.status && response.status == "ok") {
+        if (undefined !== response && response.status && response.status === "ok") {
 
             var profile = app.session.get("profile");
             this.trigger("purchase:successful");

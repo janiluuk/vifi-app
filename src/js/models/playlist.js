@@ -83,7 +83,7 @@ App.Models.FilmContent = App.Models.ApiModel.extend({
     },
 
     onLoadSubtitles: function(event) {
-        if (this.get("subtitles") != null && this.get("subtitles").length > 0) this.trigger("content:subtitles:ready", this.get("subtitles"));
+        if (this.get("subtitles") !== null && this.get("subtitles").length > 0) this.trigger("content:subtitles:ready", this.get("subtitles"));
     },
     /*
      * Add subtitles to the content as their own collection
@@ -164,7 +164,7 @@ App.Player.VideoFile = Backbone.Model.extend({
     getPlaylist: function() {
         var file = this.get("src");
         if (!file) return false;
-        if (file[0] == '/') file = file.substring(1);
+        if (file[0] === '/') file = file.substring(1);
         var mp4_url = App.Settings.mp4_url + file;
         var mpegurl = App.Settings.hls_url + '/' + file + '/playlist.m3u8';
         var playlist_item = [{
@@ -190,7 +190,7 @@ App.Player.VideoFileCollection = Backbone.Collection.extend({
         var items = this.filter(function(item) {
             if (item.get("bitrate") < min_bitrate) return item;
         });
-        if (_.size(items) == 0) {
+        if (_.size(items) === 0) {
             items.push(this.getLowest());
         }
         return items;
@@ -198,7 +198,7 @@ App.Player.VideoFileCollection = Backbone.Collection.extend({
     findClosestBitrate: function(bitrate) {
         var collection = this.findMinBitrate(bitrate);
         var curr = collection[0];
-        if (collection.size == 1) return curr;
+        if (collection.size === 1) return curr;
         var item = _.map(coll.findMinBitrate(bitrate), function(item) {
             if (Math.abs(bitrate - item.get("bitrate")) < Math.abs(bitrate - curr.get("bitrate"))) curr = item;
         });
@@ -209,13 +209,13 @@ App.Player.VideoFileCollection = Backbone.Collection.extend({
     },
     setActive: function(file) { 
         return this.map(function(item) {
-            if (item == file) item.set("active", true);
+            if (item === file) item.set("active", true);
             else item.set("active", false);
         });
     },
     getActive: function() { 
         return this.map(function(item) {
-            if (item.get("active") == true) return item;
+            if (item.get("active") === true) return item;
         });
     },
     getLowest: function() {
@@ -244,14 +244,14 @@ App.Player.Playlist = Backbone.Collection.extend({
       currentIndex : 0
     },
     setCurrentIndex : function(index) {
-      if (undefined == typeof(this.models[index])) return false;
+      if (undefined === typeof(this.models[index])) return false;
       $log("Playlist index set to: " + index);
       this.set("currentIndex", index);
       this.set("activeItem", this.models[index]);
       return true;
     },
     isLast: function() {
-      return this.get("currentIndex")+1 == this.size();
+      return this.get("currentIndex")+1 === this.size();
     },
     isLooping: function() {
         return this.get("looping");
@@ -269,7 +269,7 @@ App.Player.Playlist = Backbone.Collection.extend({
     },
     hasNext: function() {
       var next = this.get("currentIndex")+1;
-      return (undefined == typeof(this.models[next])) ? false : true;
+      return (undefined === typeof(this.models[next])) ? false : true;
     },
     resetIndex : function() {
       this.set("currentIndex",0);

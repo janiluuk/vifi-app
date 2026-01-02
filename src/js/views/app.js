@@ -44,7 +44,7 @@ App.Views.BaseAppView = Backbone.View.extend({
         /* Filterbar open by default */
         options.initialFilterState = true;
         /* If mobile and default view, minimize filterbar. React on screen changes. */
-        if (this.platform.name == "mobile") {
+        if (this.platform.name === "mobile") {
             options.initialFilterState = this.collection.querystate.isDefault() ? false : true;
             //this.platform.on("screen:orientation:change", this.onResizeScreen);
             //this.initMobile();
@@ -79,8 +79,6 @@ App.Views.BaseAppView = Backbone.View.extend({
     },
 
     showTicketPurchase: function(ticket) {
-        console.log(ticket);
-
         var id = ticket.vod_id;
         app.usercollection.fetch().done(function() {
             var title = app.usercollection.get(id);
@@ -118,7 +116,7 @@ App.Views.BaseAppView = Backbone.View.extend({
         }
         app.homepage.browserview.$isotope.isotope('layout');
         app.homepage.browserview.renderResults();  
-        if (this.scrollTop != 0) {
+        if (this.scrollTop !== 0) {
             $("#content-container").scrollTop(this.scrollTop);
         }
         App.Utils.lazyload();
@@ -154,7 +152,7 @@ App.Views.BaseAppView = Backbone.View.extend({
         // cache the current view and the new view
         var previous = this.currentPage || null;
         var next = view;
-        if (previous == next) {
+        if (previous === next) {
             this.currentPage = next;
             return;
         }
@@ -194,7 +192,6 @@ App.Views.Page = Backbone.View.extend({
     // rendering logic specific to that view.
     render: function(options) {
         // as part of refactor, show the current instance of the view using render
-        console.debug('Render triggered for the ' + this.className + ' View with cid: ' + this.cid);
         options = options || {};
         if (options.page === true) {
             this.$el.addClass('page');
@@ -298,7 +295,7 @@ App.Views.TopMenu = Backbone.View.extend({
     },
     onSearchChange: function(e) { 
         var query = $('#main-search-box').val();
-        if (query != "") {
+        if (query !== "") {
             $("#clear-search-text-button").velocity("fadeIn", {
                 duration: 400
             });
@@ -327,12 +324,12 @@ App.Views.TopMenu = Backbone.View.extend({
         }
         this.model.set("has_profile_picture", false, {silent: true});
 
-        if (this.model.get("profile_picture") != "") this.model.set("has_profile_picture", true, {silent:true});
+        if (this.model.get("profile_picture") !== "") this.model.set("has_profile_picture", true, {silent:true});
         this.$el.html(ich.topmenuTemplate(this.model.toJSON()));
         var search = this.$("#main-search-box").val();
 
         this.$("#main-search-box").val(search);
-        if (search && search != "")
+        if (search && search !== "")
         this.$("#main-search-box").trigger("keypress");
         return this;
     },
@@ -378,7 +375,7 @@ App.Views.TopMenu = Backbone.View.extend({
     onSearchSubmit: function(e) {
         e.preventDefault();
         var query = $('#main-search-box').val();
-        if (query == '') return this.clearSearch(e);
+        if (query === '') return this.clearSearch(e);
         if (app.collection.querystate.isDefault() === true) { 
             $("[data-val=reset]").click();
         }
@@ -415,12 +412,12 @@ App.Views.QuickbarMenu = Backbone.View.extend({
     toggleQuickBar: function(e) {
         if ($("#quickbar-overlay").hasClass("visible")) this.state = "open";
         else this.state = "closed";
-        if (this.state == "open") {
+        if (this.state === "open") {
             this.closeQuickBar();
         } else {
             this.openQuickBar();
         }
-        if (e) $(e.currentTarget).toggleClass("active", this.state != "closed");
+        if (e) $(e.currentTarget).toggleClass("active", this.state !== "closed");
     },
     closeQuickBar: function() {
         this.state = "closed";
@@ -471,13 +468,13 @@ App.Views.SideMenu = Backbone.View.extend({
         if (!window.snapper) return false;
         if ($("body").hasClass("snapjs-left")) this.state = "left";
         else this.state = "closed";
-        if (this.state == "left") {
+        if (this.state === "left") {
             this.closeSideBar();
         } else {
             window.snapper.open('left');
             this.state = "left";
         }
-        if (e) $(e.currentTarget).toggleClass("active", this.state != "closed");
+        if (e) $(e.currentTarget).toggleClass("active", this.state !== "closed");
     },
     closeSideBar: function() {
         if (!window.snapper) return false;
@@ -658,7 +655,7 @@ App.Views.ContactView = App.Views.ContentView.extend({
         var msg = [message.body, message.name, message.phone, message.email].join("\n\n");
         var subject = "Feedback from " + App.Settings.sitename;
         var res = this.model.validate();
-        if (res == undefined) {
+        if (res === undefined) {
             this.removeOnDone($("#submit_contact_form"));
             app.api.post(["user", "sendfeedback"], {
                 message: msg,
@@ -705,12 +702,12 @@ App.Views.RecoveryView = App.Views.ContentView.extend({
         var key = this.$("#recover-key").val();
         var pass = this.$("#recover-password").val();
         var passverify = this.$("#recover-password-confirm").val();
-        if (pass != passverify) {
+        if (pass !== passverify) {
             this.onFail({
                 message: "Passwords do not match!"
             });
         }
-        if (pass == "" || passverify == "") {
+        if (pass === "" || passverify === "") {
             this.onFail({
                 message: "Fill all the fields!"
             });

@@ -84,7 +84,6 @@ App.Views.UserEventView = Backbone.View.extend({
     render: function() {
         if (this.model.isExpired()) {return this;}
         var item = app.usercollection.get(this.model.get("id"));
-        console.log(item);
 
         if (item && item.content) {
             var images = item.content.get("images");

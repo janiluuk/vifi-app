@@ -40,7 +40,7 @@ App.Views.EventPlayerView = Backbone.View.extend({
         var nav_height = $('#event-container-heading').outerHeight();
         var footer_height = $('#event-container-footer').outerHeight();
         var orientation = App.Platforms.platform.getDeviceOrientation();
-        var player_width = (orientation == "portrait") ? $('#event-page-header').width() : $(window).width();
+        var player_width = (orientation === "portrait") ? $('#event-page-header').width() : $(window).width();
         var player_height = player_width*ratio;
 
         element.width(Math.ceil(player_width));
@@ -172,7 +172,7 @@ App.Views.EventStatusView = Backbone.View.extend({
         var timestamp = date.getTime();
         var time = (timestamp-statustime);
 
-        if (parseInt(time) > 0 && statusText == 'live') {
+        if (parseInt(time) > 0 && statusText === 'live') {
             var progress = App.Utils.convertMstoHumanReadable(time,true).toString();
         } else {
             var progress = '';
@@ -217,7 +217,7 @@ App.Views.PlayerView = Backbone.View.extend({
         var nav_height = $('#video-container-heading').outerHeight();
         var footer_height = $('#video-container-footer').outerHeight();
         var orientation = App.Platforms.platform.getDeviceOrientation();
-        var player_width = (orientation == "portrait") ? $('#movie-page-header').width() : $(window).width();
+        var player_width = (orientation === "portrait") ? $('#movie-page-header').width() : $(window).width();
         var player_height = player_width*ratio;
 
         element.width(Math.ceil(player_width));
@@ -434,7 +434,7 @@ App.Views.TrailerView = Backbone.View.extend({
     },
 
     onPlayerStateChange: function(event) {
-        if (event.data == YT.PlayerState.ENDED) {
+        if (event.data === YT.PlayerState.ENDED) {
             this.onClose();
         }
     },

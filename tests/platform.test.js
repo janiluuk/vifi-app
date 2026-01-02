@@ -6,7 +6,7 @@
 describe('Platform Helper Functions', () => {
   describe('$noop', () => {
     test('should return single argument as-is', () => {
-      const noop = function(input) {
+      const noop = function(_input) {
         if (arguments.length > 1) {
           return Array.prototype.slice.call(arguments, 0);
         } else {
@@ -59,7 +59,7 @@ describe('Platform Helper Functions', () => {
 
     test('should always log to console', () => {
       const log = function(message) {
-        console.log(message);
+        console.log(message); // eslint-disable-line no-console
       };
       
       log('test message');
@@ -73,7 +73,7 @@ describe('Platform Helper Functions', () => {
         if (typeof message === 'object') {
           logMsg = JSON.stringify(message);
         }
-        console.log(logMsg);
+        console.log(logMsg); // eslint-disable-line no-console
       };
       
       log({ key: 'value' });
@@ -94,7 +94,7 @@ describe('Platform Helper Functions', () => {
           }
           mockApp.trigger('flash', logMsg, 5000);
         }
-        console.log(message);
+        console.log(message); // eslint-disable-line no-console
       };
       
       log('debug message', true);
@@ -139,7 +139,7 @@ describe('Platform Helper Functions', () => {
 
     test('should log error with prefix', () => {
       const error = function(message) {
-        console.log('[ERROR]' + message);
+        console.log('[ERROR]' + message); // eslint-disable-line no-console
       };
       
       error('Something went wrong');
@@ -153,7 +153,7 @@ describe('Platform Helper Functions', () => {
         if (typeof message === 'object') {
           logMsg = JSON.stringify(message);
         }
-        console.log('[ERROR]' + logMsg);
+        console.log('[ERROR]' + logMsg); // eslint-disable-line no-console
       };
       
       error({ error: 'not found', code: 404 });
@@ -175,7 +175,7 @@ describe('Platform Helper Functions', () => {
           mockApp.trigger('error', logMsg);
           mockApp.trigger('flash', '<b><span class="error">' + logMsg + '</span></b>', 18000);
         }
-        console.log('[ERROR]' + message);
+        console.log('[ERROR]' + message); // eslint-disable-line no-console
       };
       
       error('Error message', true);
@@ -354,7 +354,7 @@ describe('App.Platforms', () => {
         let detectedPlatform = null;
         
         if (!detectedPlatform && !mockPlatforms.defaultPlatform) {
-          console.log("!!!! NO PLATFORM DETECTED, AND NO DEFAULT PLATFORM !!!!");
+          console.log("!!!! NO PLATFORM DETECTED, AND NO DEFAULT PLATFORM !!!!"); // eslint-disable-line no-console
           return;
         }
       };

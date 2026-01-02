@@ -61,9 +61,9 @@ App.Views.FilterView = Backbone.View.extend({
     onChangeFilter: function(field, val) {
 
         $("#id_" + field + " option").each(function() {
-            if (val == "reset") {
-                $(this).attr("selected", this.value != "" ? false : "selected");
-            } else if (this.value == val) {
+            if (val === "reset") {
+                $(this).attr("selected", this.value !== "" ? false : "selected");
+            } else if (this.value === val) {
                 var sel = $(this).attr("selected");
 
                 $(this).attr("selected", !sel ? "selected" : false);
@@ -83,11 +83,11 @@ App.Views.FilterView = Backbone.View.extend({
 
             var val = decodeURIComponent(_this.options.state.get(option));
 
-            if (val != "undefined" && val != "") {
+            if (val !== "undefined" && val !== "") {
 
                 var parts = val.split(';');
 
-                if (parts.length > 0 && parts != "undefined") {
+                if (parts.length > 0 && parts !== "undefined") {
                     $.each(parts, function(idx, item) {
                         $('#id_' + option + ' option[value="' + item + '"]').attr('selected', 'selected');
                         $(".selection-wrapper[data-field='" + option + "'] div[data-val=" + item + "]").addClass("toggle-on");
@@ -141,7 +141,7 @@ App.Views.FilterItemView = Backbone.View.extend({
         var category = el.attr("data-category");
         var radio = $(el).hasClass("radio");
 
-        if (val == "reset") {
+        if (val === "reset") {
             $(el).addClass("toggle-on").siblings().removeClass("toggle-on");  
         } else {
             $(el).toggleClass("toggle-on");
@@ -150,7 +150,7 @@ App.Views.FilterItemView = Backbone.View.extend({
 
         }
 
-        if ($(el).parent().find(".toggle-on").length == 0) {
+        if ($(el).parent().find(".toggle-on").length === 0) {
             $(el).parent().find('.reset').addClass("toggle-on");
         }
 

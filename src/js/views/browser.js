@@ -210,13 +210,13 @@ App.Views.BrowserPage = Backbone.View.extend({
     },
     onChangeDuration: function(model, duration) {
         //This is a state change event, not a dom event
-        if (this.options.redirect_on_duration_change && duration != this.collection.initial_search.duration) {
+        if (this.options.redirect_on_duration_change && duration !== this.collection.initial_search.duration) {
             this.redirectToBaseURL();
         }
     },
     onChangePeriod: function(model, period) {
         //This is a state change event, not a dom event
-        if (this.options.redirect_on_period_change && period != this.collection.initial_search.period) {
+        if (this.options.redirect_on_period_change && period !== this.collection.initial_search.period) {
             this.redirectToBaseURL();
         }
     },
@@ -248,11 +248,11 @@ App.Views.BrowserPage = Backbone.View.extend({
         // this function is a model state change, not the dom event: change
         // because of this we don't need the "event" arg.
         var parts = app.homepage.collection.querystate.get('genres');
-        if (undefined == parts || parts.length == 0) return false;
+        if (undefined === parts || parts.length === 0) return false;
         _.each(parts.split(";"), function(i) {
             $(".selection-wrapper [data-val=" + i + "]")
         });
-        if (this.options.redirect_on_genre_change && genre != this.collection.initial_search.genre) {
+        if (this.options.redirect_on_genre_change && genre !== this.collection.initial_search.genre) {
             this.redirectToBaseURL();
         }
     },
@@ -269,9 +269,9 @@ App.Views.BrowserPage = Backbone.View.extend({
             var fieldid = $(this).parent().attr("id");
             var fieldname = fieldid.replace("id_", "");
             var val = $(this).val();
-            search_dict[fieldname] = search_dict[fieldname] == undefined ? val : search_dict[fieldname] += ";" + val;
+            search_dict[fieldname] = search_dict[fieldname] === undefined ? val : search_dict[fieldname] += ";" + val;
         });
-        if (JSON.stringify(search_dict) != JSON.stringify(this.collection.querystate.attributes)) {
+        if (JSON.stringify(search_dict) !== JSON.stringify(this.collection.querystate.attributes)) {
             this.collection.querystate.set(search_dict);
         } else {
             this.onLoadingEnd();
@@ -309,7 +309,7 @@ App.Views.BrowserPage = Backbone.View.extend({
         return false;
     },
     renderResults: function(force) {
-        if (typeof(force) === "undefined" && ((typeof(this.lastattributes) !== "undefined") || this.lastattributes == JSON.stringify(this.collection.querystate.changedAttributes()))) {
+        if (typeof(force) === "undefined" && ((typeof(this.lastattributes) !== "undefined") || this.lastattributes === JSON.stringify(this.collection.querystate.changedAttributes()))) {
             return false;
         }
         if (!this.rendering) {
@@ -318,7 +318,7 @@ App.Views.BrowserPage = Backbone.View.extend({
             this.$isotope.isotope("reloadItems");
             this.collection.getFirstPage();
             /* Empty result set */
-            if (this.collection.length == 0) {
+            if (this.collection.length === 0) {
                 $("#content-body-list").append(ich.emptyListTemplate({
                     text: tr("No results")
                 })).parent().removeClass("loading");

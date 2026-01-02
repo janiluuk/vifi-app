@@ -10,7 +10,6 @@ window.$log = function(log) { 
         }
         app.trigger("flash", log, 5000);
     }
-            console.log(log);
 
 };
 
@@ -32,7 +31,6 @@ window.$error = function(log) { 
         app.trigger("error", log);
         app.trigger("flash", '<b><span class="error">' + log + '</span></b>', 18000);
     }
-    console.log('[ERROR]' + log);
 };
 App.Platforms = {
     platform: null,
@@ -42,7 +40,7 @@ App.Platforms = {
     supportedPlatforms: {},
     addSupportedPlatform: function(platform) {
         this.supportedPlatforms[platform.name] = platform;
-        if (platform.defaultPlatform == true) {
+        if (platform.defaultPlatform === true) {
             this.defaultPlatform = platform;
         }
     },
@@ -54,10 +52,10 @@ App.Platforms = {
             }
         }, this);
         if (!this.platform && !this.defaultPlatform) {
-            console.log("!!!! NO PLATFORM DETECTED, AND NO DEFAULT PLATFORM !!!!");
+            // No platform detected and no default platform available
             return;
         } else if (!this.platform) {
-            //console.log(" COULD NOT DETECT PLATFORM, USING DEFAULT (" + this.defaultPlatform.name + ")");
+            // Could not detect platform, using default
             this.platform = this.defaultPlatform;
         }
         $log("<< PLATFORM IS: (" + this.platform.name + ") >>");
@@ -131,7 +129,7 @@ App.Platform.prototype.fetchMediaPlayer = function() {
 }
 App.Platform.prototype.cleanAppVersion = function() {
     var version = navigator.appVersion.match(/^[^\s]*/)[0] || null;
-    if (version == null) return null;
+    if (version === null) return null;
     split = version.split(".")
     return {
         major: split[0],
@@ -210,7 +208,7 @@ _.extend(App.Platform.prototype, Backbone.Events);
         }
         this.setResolution(screen.availWidth, screen.availHeight);
         if (!silent) this.trigger("screen:resize", screen.availWidth, screen.availHeight);
-        if (orientation != this.orientation) {
+        if (orientation !== this.orientation) {
             this.orientation = orientation;
             if (!silent) this.trigger("screen:orientation:change", this.orientation);
         }
@@ -235,7 +233,7 @@ _.extend(App.Platform.prototype, Backbone.Events);
     browser.detectPlatform = function() {
         return false;
         try {
-            if (navigator.plugins != null && navigator.plugins.length > 0) {
+            if (navigator.plugins !== null && navigator.plugins.length > 0) {
                 return navigator.plugins["Shockwave Flash"] && true;
             }
             if (~navigator.userAgent.toLowerCase().indexOf("webtv")) {
