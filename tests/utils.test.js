@@ -27,7 +27,7 @@ describe('App.Utils', () => {
     global.App.Utils.translate = function(string) {
       var _ = require('lodash');
       var str = _.filter(global.App.Translations[global.App.Settings.language], function(item, key) { 
-        if (key == string) return item;
+        if (key === string) return item;
       });
       if (!_.isEmpty(str)) return str[0];
       return string;
@@ -71,6 +71,7 @@ describe('App.Utils', () => {
         seconds: numSecs,
         minutes: Math.floor(numMins),
         hours: Math.floor(hours),
+        days: days,
         toString: function() {
           var str = numSecs;
           if (Math.floor(numMins))
@@ -94,7 +95,7 @@ describe('App.Utils', () => {
           s = s * 60 + parseFloat(p[i].replace(',', '.'));
         }
       }
-      return parseInt(s * 1000);
+      return parseInt(s * 1000, 10);
     };
 
     // Define isValidDate function

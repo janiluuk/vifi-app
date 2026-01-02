@@ -40,7 +40,7 @@ App.User.FilmSession = App.Models.ApiModel.extend({
     },
     onRefresh: function() {
 
-        if (this.get("timestamp") == this.latestTimestamp) {
+        if (this.get("timestamp") === this.latestTimestamp) {
             this.retryCount++;
         } else {
             this.retryCount = 0;
@@ -91,7 +91,7 @@ App.User.FilmSession = App.Models.ApiModel.extend({
         if (!data.created_at) {
             data.created_at = new Date().toJSON();
         }
-        if (!App.Utils.isValidDate(data.updated_at) || data.updated_at == '0000-00-00 00:00:00') {
+        if (!App.Utils.isValidDate(data.updated_at) || data.updated_at === '0000-00-00 00:00:00') {
             data.updated_at = new Date().toJSON();
         }
         return data;
@@ -199,18 +199,18 @@ App.User.Session = Backbone.Model.extend({
      */
     getToken: function(email, password, access_token, callback, errcb) {
         if (!password) password = "";
-        if (access_token && password == "") password = access_token;
+        if (access_token && password === "") password = access_token;
         if (!this.isLoggedIn()) {
             this.reset();
             var params = ["get_token", email, password];
-            if (password == "") var params = ["get_token", email];
+            if (password === "") var params = ["get_token", email];
             app.api.call(params, {}, function(data) {
-                if (data.status == "ok") {
+                if (data.status === "ok") {
                     if (data.token) {
                         this.set("auth_id", data.token);
                         this.trigger("user:token:authenticated", data.token);
                         if (callback) callback(data);
-                        if (email == App.Settings.anonymous_username) this.disable();
+                        if (email === App.Settings.anonymous_username) this.disable();
                     }
                 } else {
                     this.trigger("user:token:error", data.message);
@@ -286,7 +286,7 @@ App.User.Session = Backbone.Model.extend({
         var options = this.getParams();
         $.getJSON(this.url(), options.data).done(function(data) {
             if (this.isLoggedIn() === false) {
-                if (undefined !== data.status && data.status == "error") {
+                if (undefined !== data.status && data.status === "error") {
                     $log("Retrieving new token " + data.message);
                     this.reset();
                     this.once("user:token:authenticated", this.fetch, this);
@@ -296,7 +296,7 @@ App.User.Session = Backbone.Model.extend({
                 if (undefined !== data.cookie) {
                     this.set("session_id", data.cookie);
                 }
-                if (data.user_id != null) this.set("user_id", data.user_id);
+                if (data.user_id !== null) this.set("user_id", data.user_id);
             } else {
                 this.disable();
             }
@@ -334,7 +334,7 @@ App.User.Session = Backbone.Model.extend({
     login: function(email, password) {
         if (!password || !email) return false;
         app.api.call(["user", "login", email, password], {}, function(data) {
-            if (data.status == "ok") {
+            if (data.status === "ok") {
                 this.set("user_id", data.user_id);
                 this.set("session_id", data.cookie);
                 this.set("auth_id", data.activationKey);
@@ -362,7 +362,7 @@ App.User.Session = Backbone.Model.extend({
     register: function(email, password) {
         if (!password || !email) return false;
         app.api.call(["user", "register", email, password], {}, function(data) {
-            if (data.status == "ok") {
+            if (data.status === "ok") {
                 this.set("user_id", data.user_id);
                 this.set("session_id", data.cookie);
                 this.set("auth_id", data.activationKey);

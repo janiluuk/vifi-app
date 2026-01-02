@@ -106,7 +106,7 @@ App.Views.PurchaseView = App.Views.DialogView.extend({
         }
         this.listenTo(this.paymentView, 'remove', this.close, this);
 
-        if (!this.session.isLoggedIn() || App.Settings.loginEnabled == false) {
+        if (!this.session.isLoggedIn() || App.Settings.loginEnabled === false) {
             this.listenTo(
                 this.session,
                 "user:login:success",
@@ -197,7 +197,6 @@ App.Views.PaymentDialog = Backbone.View.extend({
         });
     },
     onModelChange: function() {
-        console.log("YAAAAA");
         this.payment.set({model: this.model, session: this.session});
 
     },
@@ -207,7 +206,7 @@ App.Views.PaymentDialog = Backbone.View.extend({
         el.addClass("selected").siblings().removeClass("selected");
         this.payment.set("method", el.attr("id"));
         var method = _.first(app.paymentmethods.filter(function(item) {
-            return item.get("identifier") == el.attr("id");
+            return item.get("identifier") === el.attr("id");
         }));
 
         if (method && typeof(method.get) !== "undefined") {
@@ -228,7 +227,7 @@ App.Views.PaymentDialog = Backbone.View.extend({
     },
     getEmail: function() {
         var email = this.session.get("profile").get("email");
-        if (email != App.Settings.anonymous_username) {
+        if (email !== App.Settings.anonymous_username) {
             return email;
         }
         return false;
@@ -244,12 +243,12 @@ App.Views.PaymentDialog = Backbone.View.extend({
         $(".payment-method-data").hide();
         $("#" + method).addClass("selected");
         $("#method").val(method);
-        if (method == "code") {
+        if (method === "code") {
             $("#payment-method-terms").hide();
             $("#payment-code").show();
             $("#confirm-purchase-button").show();
 
-        } else if (method == "mobile") {
+        } else if (method === "mobile") {
             $("#payment-email").hide();
             $("#payment-method-terms").hide();
             $("#payment-mobile").show();
@@ -264,7 +263,7 @@ App.Views.PaymentDialog = Backbone.View.extend({
         if (e) e.preventDefault();
         var method = this.payment.get("method");
 
-        if (method == "code") {
+        if (method === "code") {
             $("#payment-method-email").val('');
         }
         var data = this.$("form").serializeObject();
@@ -289,7 +288,7 @@ App.Views.PaymentDialog = Backbone.View.extend({
         app.scrollToTop();
         var ticket = app.usercollection.get(this.model.get("id"));
 
-        if (ticket && ticket.get("type") == 'film') {
+        if (ticket && ticket.get("type") === 'film') {
             app.movieview.playMovie();
         }
     },

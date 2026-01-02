@@ -26,7 +26,7 @@ App.Views.MovieDetailView = App.Views.Page.extend({
      * @return {void}
      */
     enableRatings: function() {
-        if (this.model.get("imdbrating") == false || this.model.get("imdbrating") == "Data" || this.model.get("imdbrating") == null) {
+        if (this.model.get("imdbrating") === false || this.model.get("imdbrating") === "Data" || this.model.get("imdbrating") === null) {
             var rating = false;
             $('[id^="imdb-rating-api"]').remove();
             this.$("imdbratings .rating").remove();
@@ -119,10 +119,10 @@ App.Views.MovieDetailView = App.Views.Page.extend({
         return true;
     },
     renderRatings: function() {
-        if (undefined != this.model.get("rt_ratings") && this.model.get("rt_ratings") != "") {
+        if (undefined !== this.model.get("rt_ratings") && this.model.get("rt_ratings") !== "") {
             var link = this.model.get("rt_links").alternate;
             var rating = this.model.get("rt_ratings").critics_score;
-            if (rating == -1) rating = this.model.get("rt_ratings").audience_score;
+            if (rating === -1) rating = this.model.get("rt_ratings").audience_score;
             this.$("#rtratings").empty().append('<a target="_blank" href="' + link + '"><span class="icon rottentomato"></span><span>' + rating + '%</span></a>');
         }
         return this;
@@ -190,7 +190,7 @@ App.Views.MovieDetailView = App.Views.Page.extend({
         }
 
 
-        if (app.player.content.get('id') > 0 && app.player.content.get("id") == this.model.get("id")) {
+        if (app.player.content.get('id') > 0 && app.player.content.get("id") === this.model.get("id")) {
                 this.playerView.render();
                 this.hideCarousel();
                 app.player.player.init(app.player.player.playlist);
