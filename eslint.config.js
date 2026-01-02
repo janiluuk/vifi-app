@@ -18,7 +18,7 @@ export default [
     // Configuration for all JavaScript files
     files: ['**/*.js'],
     languageOptions: {
-      ecmaVersion: 2015,
+      ecmaVersion: 2020,
       sourceType: 'script',
       globals: {
         // Browser globals
@@ -54,6 +54,11 @@ export default [
         disqus_shortname: 'writable',
         DISQUS: 'writable',
         url: 'writable',
+        tr: 'readonly',
+        Swiper: 'readonly',
+        Option: 'readonly',
+        alert: 'readonly',
+        frontnavSwiper: 'writable',
         
         // Webpack DefinePlugin injected globals
         // 'process.env.*' variables are replaced at build time by webpack

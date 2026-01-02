@@ -135,7 +135,7 @@ App.MediaPlayer = {
      **/
     getSubtitleConfig: function() {
 
-        if (true === App.Settings.Player.enable_legacy_subtitles) {
+        if (App.Settings.Player.enable_legacy_subtitles === true) {
             $log("Legacy subtitles enabled, not loading VTT");
             return {};
         }
@@ -237,7 +237,7 @@ App.MediaPlayer = {
         }
     },
     isReady: function() {
-        return false !== this.plugin && this.plugin.hasState('is-loaded');
+        return this.plugin !== false && this.plugin.hasState('is-loaded');
     },
     playing: function() {
         var playing = (this.plugin && this.plugin.hasState('is-playing') ? true : false);

@@ -25,7 +25,7 @@ App.User.FilmSession = App.Models.ApiModel.extend({
         this.on("refresh:fail", this.onRefreshFail, this);
         this.on("content:play", this.startFetching, this);
         this.on("content:stop", this.stopFetching, this);
-        if (options && "undefined" !== typeof options.session_id) {
+        if (options && typeof options.session_id !== "undefined") {
             this.set("id", options.session_id);
         }
         var refreshOptions = {

@@ -813,6 +813,23 @@ Vifi.ee-frontend/
 - **[tests/README.md](tests/README.md)**: Test suite documentation
 - **[apiary.apib](apiary.apib)**: Full API specification in API Blueprint format
 
+### 📋 Code Quality and Optimization Documentation
+
+> **New!** Comprehensive analysis of areas needing improvement:
+
+- **[OPTIMIZATION_SUMMARY.md](OPTIMIZATION_SUMMARY.md)**: Quick reference guide for critical issues and immediate action items
+- **[OPTIMIZATION_REFACTORING_LIST.md](OPTIMIZATION_REFACTORING_LIST.md)**: Detailed analysis of 15 major categories of improvements needed
+- **[ISSUES_VISUALIZATION.md](ISSUES_VISUALIZATION.md)**: Visual diagrams and charts showing issue distribution and priorities
+
+**Key findings:**
+- 655 linting issues identified (186 errors, 469 warnings)
+- 0% test coverage for most source files
+- Multiple security concerns (XSS, hardcoded secrets, insecure cookies)
+- Performance optimization opportunities (bundle size, code splitting)
+- Estimated 12-16 weeks for full remediation
+
+Start with [OPTIMIZATION_SUMMARY.md](OPTIMIZATION_SUMMARY.md) for the quick overview and immediate action items.
+
 ## Troubleshooting
 
 ### Build Errors

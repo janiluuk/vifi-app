@@ -317,7 +317,7 @@
             app.showContentPage("recovery", "Recovery form");
         },
         showContactPage: function() {
-            if (typeof(L) == "undefined") {
+            if (typeof(L) === "undefined") {
                 $('<link/>', {
                     rel: 'stylesheet',
                     href: '//unpkg.com/leaflet@1.6.0/dist/leaflet.css'
@@ -334,7 +334,7 @@
             app.router.init_map();
         },
         init_map: function() {
-            if (typeof(L) == "undefined") {
+            if (typeof(L) === "undefined") {
                 setTimeout(function() {
                     this.init_map();
                 }.bind(this), 760);

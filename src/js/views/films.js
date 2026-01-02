@@ -43,7 +43,7 @@ App.Views.UserFilmView = Backbone.View.extend({
     showMoviePage: function(e) {
         app.quickmenu.trigger("quickbar:close");
         var film = app.collection.originalCollection.get(this.model.get("id"));
-        if (typeof film == "undefined") return false;
+        if (typeof film === "undefined") return false;
         var url = film.get("seo_friendly_url");
         app.router.showFilm(film.get("id"), true);
         e.preventDefault();
@@ -75,7 +75,7 @@ App.Views.UserEventView = Backbone.View.extend({
     showEventPage: function(e) {
         app.quickmenu.trigger("quickbar:close");
         var event = app.usercollection.get(this.model.get("id"));
-        if (typeof event == "undefined") return false;
+        if (typeof event === "undefined") return false;
         var url = event.get("seo_friendly_url");
         app.router.showEvent(event.get("id"), true);
         e.preventDefault();

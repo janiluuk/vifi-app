@@ -35,10 +35,10 @@ _.extend(App.Models.ApiModel.prototype, {
         // Default JSON-request options.
         // passing options.url will override
         // the default construction of the url in Backbone.sync
-        var data = ("undefined" == typeof(options)) ? {} : options.data;
+        var data = (typeof(options) === "undefined") ? {} : options.data;
 
         var session = this.get("session");
-        if (!session || "undefined" == typeof session.attributes) session = app.session;
+        if (!session || typeof session.attributes === "undefined") session = app.session;
         var sessionParams= session.getParams(data);
 
         var type="GET";
@@ -184,7 +184,7 @@ _.extend(App.Models.Film.prototype,  {
             dataType: "jsonp",
             success: function(res) {
                 _this.set("rt_links", res.links);
-                if (typeof(res.ratings) != "undefined" && (res.ratings.critics_score > 0 || res.ratings.audience_score > 0) )
+                if (typeof(res.ratings) !== "undefined" && (res.ratings.critics_score > 0 || res.ratings.audience_score > 0) )
                 _this.set("rt_ratings", res.ratings);
 
             }

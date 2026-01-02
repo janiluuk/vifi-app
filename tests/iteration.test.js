@@ -6,13 +6,11 @@
 describe('Safe Property Iteration', () => {
   describe('getQueryString with hasOwnProperty', () => {
     test('should only iterate over own properties', () => {
-      const dict = {
-        q: 'search',
-        genre: 'action'
-      };
-      
-      // Add a property to the prototype
-      Object.prototype.pollutedProperty = 'should not appear';
+      // Create object with inherited properties using Object.create
+      const parent = { pollutedProperty: 'should not appear' };
+      const dict = Object.create(parent);
+      dict.q = 'search';
+      dict.genre = 'action';
       
       // Simulate the fixed getQueryString function
       const getQueryString = function(dict, addParams) {
@@ -41,13 +39,10 @@ describe('Safe Property Iteration', () => {
       
       const result = getQueryString(dict);
       
-      // Should not include the polluted property
+      // Should not include the inherited property
       expect(result).not.toContain('pollutedProperty');
       expect(result).toContain('q=search');
       expect(result).toContain('genre=action');
-      
-      // Cleanup
-      delete Object.prototype.pollutedProperty;
     });
 
     test('should handle inherited properties correctly', () => {
@@ -101,11 +96,14 @@ describe('Safe Property Iteration', () => {
     });
 
     test('should handle addParams with hasOwnProperty', () => {
-      const dict = { q: 'test' };
-      const addParams = { extra: 'param' };
+      // Create objects with inherited properties using Object.create
+      const dictParent = { inherited: 'bad' };
+      const dict = Object.create(dictParent);
+      dict.q = 'test';
       
-      // Add a property to the prototype
-      Object.prototype.inherited = 'bad';
+      const addParamsParent = { alsoInherited: 'alsoBad' };
+      const addParams = Object.create(addParamsParent);
+      addParams.extra = 'param';
       
       const getQueryString = function(dict, addParams) {
         const hashables = [];
@@ -133,9 +131,7 @@ describe('Safe Property Iteration', () => {
       
       expect(result).toContain('extra=param');
       expect(result).not.toContain('inherited');
-      
-      // Cleanup
-      delete Object.prototype.inherited;
+      expect(result).not.toContain('alsoInherited');
     });
   });
 });

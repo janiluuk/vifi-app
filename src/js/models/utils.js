@@ -78,7 +78,7 @@ App.Utils = {
         if (width) url+="&w="+width;
         if (height) url+="&h="+height;
         if (zc) url+= "&zc="+zc;
-        if (a && typeof a == "string") url+= "&a="+a;
+        if (a && typeof a === "string") url+= "&a="+a;
         return url;
     },
     // Underscore template loader
@@ -109,7 +109,7 @@ App.Utils = {
     },
 
     convertMstoHumanReadable: function(ms, leadingZeros) {
-            leadingZeros = typeof(leadingZeros) == 'undefined' ? true : !!leadingZeros // Make sure its boolean
+            leadingZeros = typeof(leadingZeros) === 'undefined' ? true : !!leadingZeros // Make sure its boolean
 
             var x = ms / 1000
             var seconds = Math.floor(x % 60)
@@ -183,7 +183,7 @@ App.Utils = {
         dateToHumanreadable: function(s) {
 
             if (!s) return false;
-            if ("string" == typeof(s)) {
+            if (typeof(s) === "string") {
                s = new Date(Date.parse(s));
             }
 
@@ -253,7 +253,7 @@ App.Utils = {
         isValidDate: function(date) {
             if (!date) return false;
             var parsed = Date.parse(date);
-            if (null !== parsed)
+            if (parsed !== null)
                 return true;
             else
 
@@ -345,7 +345,7 @@ App.Utils.State = Backbone.Model.extend({
             var parts = hashable.split(':');
             var prop = parts[0];
             var value = parts[1];
-            if (typeof(value) != "undefined") {
+            if (typeof(value) !== "undefined") {
                 dict[prop] = value.length > 0 ? value : undefined;
             }
             if (dict[prop] == undefined && !i) {

@@ -189,10 +189,10 @@ App.MediaPlayer = {
 
         var file = App.Settings.Player.subtitles_url + subtitles.file;
 
-        if (typeof($f) == "undefined") return false;
+        if (typeof($f) === "undefined") return false;
 
         setTimeout(function() { 
-            if (typeof(this.plugin) == "undefined" || typeof(this.plugin.getPlugin("captions")) == "undefined") {
+            if (typeof(this.plugin) === "undefined" || typeof(this.plugin.getPlugin("captions")) === "undefined") {
                 $log("PLUGIN NOT FOUND");
                 setTimeout(function() { 
 
@@ -211,13 +211,13 @@ App.MediaPlayer = {
     },
 
     disableSubtitles: function() { 
-        if (typeof($f) == "undefined") return false;
+        if (typeof($f) === "undefined") return false;
         this.plugin.getPlugin('content').hide();
 
     },
     enableSubtitles: function() { 
 
-        if (typeof($f) == "undefined") return false;
+        if (typeof($f) === "undefined") return false;
         this.plugin.getPlugin('content').show();
 
     },
@@ -267,7 +267,7 @@ App.MediaPlayer = {
         this.trigger("mediaplayer:onrewind", 1);
     },
     getCurrentTime: function() {
-        if (typeof($f()) == "undefined") return 0;
+        if (typeof($f()) === "undefined") return 0;
 	else
         return $f().getTime() * 1000;
     },

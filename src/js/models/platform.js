@@ -5,7 +5,7 @@ window.$noop = function(input) {
 }
 window.$log = function(log) { 
     if (App.Settings.debug === true) {
-        if (typeof(log) == "object") {
+        if (typeof(log) === "object") {
             log = JSON.stringify(log);
         }
         app.trigger("flash", log, 5000);
@@ -26,7 +26,7 @@ window.$debug = function() { 
 
 window.$error = function(log) { 
     if (App.Settings.debug === true) {
-        if (typeof(log) == "object") {
+        if (typeof(log) === "object") {
             log = JSON.stringify(log);
         }
         app.trigger("error", log);
@@ -181,7 +181,7 @@ _.extend(App.Platform.prototype, Backbone.Events);
         this.updateScreen(true);
     };    
     browser.updateScreen = function(silent) {
-        if (typeof(screen) != "undefined") {
+        if (typeof(screen) !== "undefined") {
             window.screen.availWidth = $(window).width();
             window.screen.availHeight = $(window).height();
         }
@@ -204,7 +204,7 @@ _.extend(App.Platform.prototype, Backbone.Events);
     };
     browser.updateScreen = function(silent) {
         var orientation = this.getDeviceOrientation();
-        if (typeof(screen) != "undefined") {
+        if (typeof(screen) !== "undefined") {
             window.screen.availWidth = $(window).width();
             window.screen.availHeight = $(window).height();
         }

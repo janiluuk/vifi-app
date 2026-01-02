@@ -42,7 +42,7 @@ describe('App.Utils', () => {
     // Define convertMstoHumanReadable function (with bug fix)
     global.App.Utils.convertMstoHumanReadable = function(ms, leadingZeros) {
       // BUG FIX: Changed leadingZerons to leadingZeros
-      leadingZeros = typeof(leadingZeros) == 'undefined' ? true : !!leadingZeros;
+      leadingZeros = typeof(leadingZeros) === 'undefined' ? true : !!leadingZeros;
 
       var x = ms / 1000;
       // BUG FIX: Properly declared variables to avoid global scope pollution

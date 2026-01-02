@@ -309,7 +309,7 @@ App.Views.BrowserPage = Backbone.View.extend({
         return false;
     },
     renderResults: function(force) {
-        if (typeof(force) == "undefined" && ((typeof(this.lastattributes) != "undefined") || this.lastattributes == JSON.stringify(this.collection.querystate.changedAttributes()))) {
+        if (typeof(force) === "undefined" && ((typeof(this.lastattributes) !== "undefined") || this.lastattributes == JSON.stringify(this.collection.querystate.changedAttributes()))) {
             return false;
         }
         if (!this.rendering) {

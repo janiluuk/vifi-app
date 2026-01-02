@@ -149,7 +149,7 @@ App.MediaPlayer = {
         }
     },
     isReady: function() {
-        return false !== this.plugin && this.plugin.ready;
+        return this.plugin !== false && this.plugin.ready;
     },
     playing: function() {
         var playing = (this.plugin.playing ? true : false);

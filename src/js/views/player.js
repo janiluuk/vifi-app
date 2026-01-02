@@ -402,7 +402,7 @@ App.Views.TrailerView = Backbone.View.extend({
 
     initPlayer: function() {
         var _this = this;
-        if (typeof(YT) == "undefined") {
+        if (typeof(YT) === "undefined") {
             setTimeout(function() {
                 this.initPlayer();
             }.bind(this), 600);
