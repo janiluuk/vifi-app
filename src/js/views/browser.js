@@ -198,21 +198,19 @@ App.Views.BrowserPage = Backbone.View.extend({
         $genres.empty();
         
         if (this.collection.options.genres.length > 0) {
-            // Batch DOM operations by building options array first
-            var options = [];
+            // Use DocumentFragment for optimal DOM performance
+            var fragment = document.createDocumentFragment();
             
             if (this.collection.options.genres.length > 1) {
-                options.push(new Option('All Genres', ''));
+                fragment.appendChild(new Option('All Genres', ''));
             }
             
             _.each(this.collection.options.genres.models, function(genre, key, list) {
-                options.push(new Option(genre.get("name"), genre.get("id")));
+                fragment.appendChild(new Option(genre.get("name"), genre.get("id")));
             });
             
-            // Single DOM operation with all options
-            for (var i = 0; i < options.length; i++) {
-                $genres.append(options[i]);
-            }
+            // Single DOM operation with all options at once
+            $genres[0].appendChild(fragment);
             
             this.$('#id_genres option[value="' + this.collection.querystate.get('genres') + '"]').attr('selected', 'selected');
         }

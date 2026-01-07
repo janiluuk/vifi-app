@@ -175,21 +175,23 @@ App.Views.FilterItemView = Backbone.View.extend({
         var $select = $('<select id="id_' + el + '" multiple></select>').appendTo("#filter-elements");
 
         if (this.filters.length > 0) {
-            // Batch DOM operations by building options array first
-            var options = [new Option('All Genres', '')];
+            // Use DocumentFragment for optimal DOM performance
+            var fragment = document.createDocumentFragment();
             
+            // Add "All Genres" option
+            fragment.appendChild(new Option('All Genres', ''));
+            
+            // Build all filter options
             this.filters.each(function(filter) {
                 var option = document.createElement('option');
                 option.value = filter.get("id");
                 option.setAttribute('data-val', filter.get("id"));
                 option.text = filter.get("name");
-                options.push(option);
+                fragment.appendChild(option);
             });
             
-            // Single DOM operation instead of multiple appends
-            for (var i = 0; i < options.length; i++) {
-                $select.append(options[i]);
-            }
+            // Single DOM operation with all options at once
+            $select[0].appendChild(fragment);
         }
     },
     render: function() {
