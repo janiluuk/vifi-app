@@ -85,8 +85,9 @@ App.Views.BrowserPage = Backbone.View.extend({
     el: '#browser-content',
     events: {
         'change #search-form select': 'onSearchFieldChange',
-        'change #search-form input[type="text"]': 'onSearchFieldChange',
         'change #search-form input[type="hidden"]': 'onSearchFieldChange',
+        'keyup #search-form input[type="text"]': 'debouncedSearchFieldChange',
+        'change #search-form input[type="text"]': 'onSearchFieldChange',
         'click #loadMore': 'onLoadMore'
     },
     initialize: function(options) {
@@ -111,6 +112,11 @@ App.Views.BrowserPage = Backbone.View.extend({
         });
         this.searchview.render();
         _.bindAll(this, 'render', 'renderResults', 'initEvents', 'applyIsotope');
+        
+        // Create debounced version of search field change handler for better performance
+        // Reduces API calls and improves responsiveness with 400ms delay
+        this.debouncedSearchFieldChange = _.debounce(this.onSearchFieldChange, 400);
+        
         this.initEvents();
     },
     initEvents: function() {

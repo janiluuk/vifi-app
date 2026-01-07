@@ -76,12 +76,17 @@ module.exports = (env, argv) => {
             compress: {
               drop_console: true,
               drop_debugger: true,
+              passes: 2,  // Additional pass for better compression
             },
             format: {
               comments: false,
             },
+            mangle: {
+              safari10: true,  // Better Safari compatibility
+            },
           },
           extractComments: false,
+          parallel: true,  // Faster builds with parallel processing
         }),
       ],
       splitChunks: {
@@ -100,6 +105,8 @@ module.exports = (env, argv) => {
           },
         },
       },
+      // Additional runtime chunk for better caching
+      runtimeChunk: isProduction ? 'single' : false,
     },
     module: {
       rules: [
