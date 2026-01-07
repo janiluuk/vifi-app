@@ -207,14 +207,12 @@ App.Views.EventDetailView = App.Views.Page.extend({
             return this.ticket;
         }
         if (!this.model || !this.model.get) {
-            throw "No ticket found for event!";
-            return false;
+            throw new Error("No ticket found for event!");
         }
         var id = this.model.get("id");
         var ticket = app.usercollection.get(id);
         if (_.isEmpty(ticket)) {
-            throw "No ticket found for user!";
-            return false;
+            throw new Error("No ticket found for user!");
         }
         this.ticket = ticket;
         return ticket;

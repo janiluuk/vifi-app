@@ -301,7 +301,7 @@ App.Models.Purchase = Backbone.Model.extend({
         if (this.mobilepayment) {
             this.mobilepayment.resetPayment();
         }
-        this.mobilepayment = new App.Models.MobilePurchase({model:options.model, session:options.session, payment: this}),
+        this.mobilepayment = new App.Models.MobilePurchase({model:options.model, session:options.session, payment: this});
 
         this.listenTo(this.mobilepayment, 'all', function(evenName, options) {
           var type = evenName.split(/purchase:/)[1];

@@ -18,7 +18,7 @@ window.app = _.extend({}, Backbone.Events);
 
         App.Platforms.init();
         // check for hash and set state accordingly
-        if (window.location.hash.indexOf('#search') != -1) {
+        if (window.location.hash.indexOf('#search') !== -1) {
             // start with empty state because Router will configure it later.
             var state = new App.Utils.State();
 
@@ -133,14 +133,15 @@ function handleSessionResponse(response) {
 
 /** Init google analytics */
 function initGA() {
-    if (App.Settings.google_analytics_enabled == true) {
+    if (App.Settings.google_analytics_enabled === true) {
         (function(i, s, o, g, r, a, m) {
             i['GoogleAnalyticsObject'] = r;
             i[r] = i[r] || function() {
-                (i[r].q = i[r].q || []).push(arguments)
-            }, i[r].l = 1 * new Date();
-            a = s.createElement(o),
-                m = s.getElementsByTagName(o)[0];
+                (i[r].q = i[r].q || []).push(arguments);
+            };
+            i[r].l = 1 * new Date();
+            a = s.createElement(o);
+            m = s.getElementsByTagName(o)[0];
             a.async = 1;
             a.src = g;
 
@@ -199,7 +200,7 @@ function initFB() {
         }
     });
     $(document).on('logout', function () {
-        if (FB.getAccessToken() != null) {
+        if (FB.getAccessToken() !== null) {
             FB.logout();
             app.fbuser.set(app.fbuser.defaults);
         }

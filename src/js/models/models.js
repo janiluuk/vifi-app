@@ -166,7 +166,7 @@ _.extend(App.Models.Film.prototype,  {
      *
      */
     fetchRT: function(id) {
-
+        var imdb_id;
         if (id) imdb_id = id;
         else imdb_id = this.get("imdb_id");
 

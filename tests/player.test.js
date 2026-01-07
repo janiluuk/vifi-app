@@ -315,6 +315,7 @@ describe('Video Player', () => {
       expect(isValidSourceUrl('https://cdn.example.com/video.mp4')).toBe(true);
       expect(isValidSourceUrl('//cdn.example.com/video.mp4')).toBe(true);
       expect(isValidSourceUrl('http://cdn.example.com/video.mp4')).toBe(true);
+      // eslint-disable-next-line no-script-url
       expect(isValidSourceUrl('javascript:alert(1)')).toBe(false);
       expect(isValidSourceUrl('data:text/html,<script>')).toBe(false);
       expect(isValidSourceUrl('')).toBe(false);

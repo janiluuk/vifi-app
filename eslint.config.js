@@ -59,6 +59,20 @@ export default [
         Option: 'readonly',
         alert: 'readonly',
         frontnavSwiper: 'writable',
+        mySwiper: 'writable',
+        myMovieSwiper: 'writable',
+        filmnavSwiper: 'writable',
+        Snap: 'readonly',
+        initDisqus: 'writable',
+        resetDisqus: 'writable',
+        Image: 'readonly',
+        screen: 'readonly',
+        ActiveXObject: 'readonly',
+        player: 'writable',
+        $noop: 'readonly',
+        split: 'writable',
+        session: 'writable',
+        NotificationFx: 'readonly',
         
         // Webpack DefinePlugin injected globals
         // 'process.env.*' variables are replaced at build time by webpack
