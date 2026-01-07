@@ -73,6 +73,12 @@ export default [
         split: 'writable',
         session: 'writable',
         NotificationFx: 'readonly',
+        L: 'readonly',
+        $f: 'readonly',
+        BackbonePolling: 'readonly',
+        Blazy: 'readonly',
+        atob: 'readonly',
+        btoa: 'readonly',
         
         // Webpack DefinePlugin injected globals
         // 'process.env.*' variables are replaced at build time by webpack

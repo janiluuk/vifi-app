@@ -558,6 +558,7 @@ App.Player.Playlist = function() {
     }
     this.addPreroll = function(renditions, isAd) {
         var isAd = _.isNull(isAd) ? true : isAd; // We default to it being an ad.
+        var videos = renditions;
         if (!_.isArray(videos)) videos = [videos];
         this.files.unshift({
             isAd: isAd,
@@ -694,19 +695,19 @@ App.Player.Subtitles = Backbone.Model.extend({
         var srt_ = srt.split('\n\n');
         var subtitledata = {};
 
-        for (s in srt_) {
-            st = srt_[s].split('\n');
+        for (var s in srt_) {
+            var st = srt_[s].split('\n');
             if (st.length >= 2) {
 
-                n = st[0];
-                i = App.Utils.strip(st[1].split(' --> ')[0]);
-                o = App.Utils.strip(st[1].split(' --> ')[1]);
-                t = st[2];
+                var n = st[0];
+                var i = App.Utils.strip(st[1].split(' --> ')[0]);
+                var o = App.Utils.strip(st[1].split(' --> ')[1]);
+                var t = st[2];
                 if (st.length > 2) {
-                    for (j = 3; j < st.length; j++) t += '\n' + st[j];
+                    for (var j = 3; j < st.length; j++) t += '\n' + st[j];
                 }
-                is = App.Utils.toSeconds(i);
-                os = App.Utils.toSeconds(o);
+                var is = App.Utils.toSeconds(i);
+                var os = App.Utils.toSeconds(o);
                 subtitledata[is] = {
                     i: i,
                     is: is,
@@ -740,7 +741,7 @@ App.Player.Subtitles = Backbone.Model.extend({
             if (!this.enabled) clearInterval(this.ival);
             var currentTime = app.player.getCurrentTime();
             var subtitle = -1;
-            for (s in subtitledata) {
+            for (var s in subtitledata) {
                 if (s > currentTime) break;
                 subtitle = s;
             }

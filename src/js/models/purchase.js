@@ -58,7 +58,7 @@ App.Models.MobilePurchase = App.Models.ApiModel.extend({
 
     initPayment: function() {
 
-        if (this.get("pending") === true) throw ("Payment already ongoing!");
+        if (this.get("pending") === true) throw new Error("Payment already ongoing!");
         this.sync("update").done(function(res) { this.onStatusReceive(res); }.bind(this));
     },
 
@@ -482,13 +482,12 @@ App.Models.Purchase = Backbone.Model.extend({
             auth_id = this.session.get("auth_id");
 
         if (!product_id || product_id < 1) {
-            throw ("Invalid product given for purchase");
+            throw new Error("Invalid product given for purchase");
         }
 
         if (!user_id || user_id < 1) {
 
-            throw ("Invalid or missing user for purchase");
-            return false;
+            throw new Error("Invalid or missing user for purchase");
         }
 
         var info = {
@@ -572,11 +571,10 @@ App.Models.PurchaseSubscription = App.Models.Purchase.extend({
         var method_id = this.get("method_id");
 
         if (!product_id || product_id < 1) {
-            throw ("Invalid product given for purchase");
+            throw new Error("Invalid product given for purchase");
         }
         if (!user_id || user_id < 1) {
-            throw ("Invalid or missing user for purchase");
-            return false;
+            throw new Error("Invalid or missing user for purchase");
         }
 
         var info = {
