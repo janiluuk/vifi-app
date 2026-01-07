@@ -71,7 +71,7 @@ App.Models.MobilePurchase = App.Models.ApiModel.extend({
     requestPaymentStatus: function(callback) {
         var authToken = this.get("authToken");
         if (!authToken || authToken === "") {
-            throw ("No auth token available to use for status check");
+            throw new Error("No auth token available to use for status check");
         }
         app.api.call(["payment/emtpayment", this.model.get("id")], {authToken: authToken}, callback);
     },
