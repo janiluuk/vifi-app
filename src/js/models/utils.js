@@ -65,15 +65,11 @@ App.Utils = {
         if (!App.Utils.bLazy) {
             // Optimized lazy loading configuration for better performance
             // - Reduced offset for faster perceived load times
-            // - Added success callback for better resource management
+            // - Added error callback for graceful failure handling
             // - Configured for optimal viewport detection
             App.Utils.bLazy = new Blazy({ 
                 container: "#content-container", 
                 offset: 300,  // Reduced from 450 for faster loading
-                success: function(element) {
-                    // Optional: Track successful loads for analytics
-                    // element.classList.add('b-loaded');
-                },
                 error: function(element, msg) {
                     // Graceful error handling for failed image loads
                     element.classList.add('b-error');

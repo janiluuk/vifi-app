@@ -82,7 +82,7 @@ module.exports = (env, argv) => {
               comments: false,
             },
             mangle: {
-              safari10: true,  // Better Safari compatibility
+              safari10: true,  // Prevents Safari 10 variable name mangling conflicts
             },
           },
           extractComments: false,

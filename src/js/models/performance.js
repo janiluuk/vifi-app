@@ -33,7 +33,10 @@ App.Utils.Performance = {
                     return measures[measures.length - 1].duration;
                 }
             } catch (e) {
-                // Mark doesn't exist, fail silently
+                // Mark doesn't exist - could happen if start/end marks weren't created
+                if (window.console && window.console.warn && App.Settings.debug) {
+                    console.warn('Performance: Could not measure "' + name + '". Marks may not exist.');
+                }
             }
         }
         return 0;
@@ -82,7 +85,7 @@ App.Utils.Performance = {
      * @param {string} context - Context description for the log
      */
     log: function(context) {
-        if (window.console && window.console.table) {
+        if (window.console && window.console.log && window.console.table) {
             var measures = this.getMeasures();
             if (measures.length > 0) {
                 console.log('Performance Metrics: ' + context);
@@ -173,18 +176,3 @@ App.Utils.Performance = {
         });
     }
 };
-
-// Example usage (commented out - add to code where needed):
-/*
-// Mark start of operation
-App.Utils.Performance.mark('filter-update-start');
-
-// ... perform filter update ...
-
-// Mark end and measure
-App.Utils.Performance.mark('filter-update-end');
-var duration = App.Utils.Performance.measure('filter-update', 'filter-update-start', 'filter-update-end');
-
-// Log results (development)
-App.Utils.Performance.log('Filter Update');
-*/
