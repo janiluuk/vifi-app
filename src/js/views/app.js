@@ -588,7 +588,9 @@ App.Views.DialogView = Backbone.View.extend({
 App.Views.ContentView = App.Views.Page.extend({
     el: "#contentpage",
     initialize: function(options) {
-        this.content = eval("ich." + options.template + "().html()");
+        // Access the template function from ich object without eval
+        var templateFn = ich[options.template];
+        this.content = templateFn ? templateFn().html() : '';
         this.template = ich.contentPageTemplate({
             content: this.content,
             title: options.title

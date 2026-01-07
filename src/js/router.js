@@ -353,7 +353,7 @@
         },
         showContentPage: function(template, title) {
             if (!template) {
-                throw ("Invalid template");
+                throw new Error("Invalid template");
             }
             var name = template.split("-").join("");
             if (_.isEmpty(title)) {

@@ -559,15 +559,15 @@ App.User.Profile = App.Models.ApiModel.extend({
         return app.usercollection;
     },
     updatePurchases: function(cb) {
-        _this = this;
+        var _this = this;
 
         var deferred = new $.Deferred();
         this.fetch().done(function() {
             _this.updateUserCollection();
             deferred.resolve(app.usercollection);
-            if (app.fbuser && app.fbuser.get("id") && parseInt(app.fbuser.get("id")) > 0) {
+            if (app.fbuser && app.fbuser.get("id") && parseInt(app.fbuser.get("id"), 10) > 0) {
 
-                    _this.set("profile_picture", 'https://graph.facebook.com/' + app.fbuser.get("id") + '/picture')
+                    _this.set("profile_picture", 'https://graph.facebook.com/' + app.fbuser.get("id") + '/picture');
             }
         }.bind(this));
         return deferred.promise();

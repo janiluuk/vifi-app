@@ -232,7 +232,7 @@ App.Player.Platforms.Core = {
             var speedBps = Math.round(bitsLoaded / duration);
             var bitrate = (speedBps / 1024).toFixed(2);
 
-            if (parseInt(bitrate) > 100) _this.userBitrate = bitrate;
+            if (parseInt(bitrate, 10) > 100) _this.userBitrate = bitrate;
             if (callback) callback(bitrate);
 
             $log("___ USER BITRATE DETECTED: " + bitrate + " ____");
@@ -457,10 +457,10 @@ App.Player.Playlist = function() {
     */
     this.resetIndex = function() {
         this.currentIndex = 0;
-    },
+    };
     this.currentItemIndex = function() {
         return this.currentIndex - 1;
-    },
+    };
     this.nextFile = function() {
         if (this.currentIndex === this.files.length) {
             $log(" REACHED THE END OF PLAYLIST");
@@ -472,7 +472,7 @@ App.Player.Playlist = function() {
         var file = this.getPlaylistItem(this.files[this.currentIndex]);
 
         return file;
-    },
+    };
 
     this.getType = function() {
         if (!_.isEmpty(this.files)) return this.files[this.currentIndex].get("type");
@@ -483,17 +483,18 @@ App.Player.Playlist = function() {
 
         var profiles = content.get("videos");
         if (_.isEmpty(profiles)) return false;
-
-        if (this.userBitrate) user_bitrate = parseInt(this.userBitrate);
-        else user_bitrate = parseInt(App.MediaPlayer.userBitrate);
+        
+        var user_bitrate;
+        if (this.userBitrate) user_bitrate = parseInt(this.userBitrate, 10);
+        else user_bitrate = parseInt(App.MediaPlayer.userBitrate, 10);
 
         var file = profiles[0];
         $log("Parsing"+JSON.stringify(profiles));
         
-        var file_bitrate = parseInt(file.bitrate);
+        var file_bitrate = parseInt(file.bitrate, 10);
         var min_bitrate = file_bitrate;
         _.each(profiles, function(profile) {
-            var profile_bitrate = parseInt(profile.bitrate);
+            var profile_bitrate = parseInt(profile.bitrate, 10);
 
             $log(" TESTING file.bitrate: " + profile.bitrate + ", my bitrate: " + user_bitrate);
             if (profile_bitrate > file_bitrate && profile_bitrate < user_bitrate) {
@@ -508,7 +509,7 @@ App.Player.Playlist = function() {
         $log("Choosing " + file.src + " as the default video");
 
         return file;
-    },
+    };
     this.getPlaylistFiles = function() {
         var content = this.nextFile();
         if (this.getType() === 'event') {
@@ -546,17 +547,18 @@ App.Player.Playlist = function() {
         ];
 
         return playlist_item;
-    },
+    };
 
     this.generateEventPlaylistItem = function() {
         var playlist_item = this.files[this.currentIndex].get("videos");
         return playlist_item;
-    },    
+    };    
     this.addFiles = function(files) {
         this.files.push(files);
     }
     this.addPreroll = function(renditions, isAd) {
         var isAd = _.isNull(isAd) ? true : isAd; // We default to it being an ad.
+        var videos = renditions;
         if (!_.isArray(videos)) videos = [videos];
         this.files.unshift({
             isAd: isAd,
@@ -693,19 +695,19 @@ App.Player.Subtitles = Backbone.Model.extend({
         var srt_ = srt.split('\n\n');
         var subtitledata = {};
 
-        for (s in srt_) {
-            st = srt_[s].split('\n');
+        for (var s in srt_) {
+            var st = srt_[s].split('\n');
             if (st.length >= 2) {
 
-                n = st[0];
-                i = App.Utils.strip(st[1].split(' --> ')[0]);
-                o = App.Utils.strip(st[1].split(' --> ')[1]);
-                t = st[2];
+                var n = st[0];
+                var i = App.Utils.strip(st[1].split(' --> ')[0]);
+                var o = App.Utils.strip(st[1].split(' --> ')[1]);
+                var t = st[2];
                 if (st.length > 2) {
-                    for (j = 3; j < st.length; j++) t += '\n' + st[j];
+                    for (var j = 3; j < st.length; j++) t += '\n' + st[j];
                 }
-                is = App.Utils.toSeconds(i);
-                os = App.Utils.toSeconds(o);
+                var is = App.Utils.toSeconds(i);
+                var os = App.Utils.toSeconds(o);
                 subtitledata[is] = {
                     i: i,
                     is: is,
@@ -739,7 +741,7 @@ App.Player.Subtitles = Backbone.Model.extend({
             if (!this.enabled) clearInterval(this.ival);
             var currentTime = app.player.getCurrentTime();
             var subtitle = -1;
-            for (s in subtitledata) {
+            for (var s in subtitledata) {
                 if (s > currentTime) break;
                 subtitle = s;
             }
