@@ -772,11 +772,14 @@ App.Player.Subtitles = Backbone.Model.extend({
         this.subtitles = {};
         var that = this;
         var i = 0;
-        $(subtitles).each(function() {
-            var code = this.code;
-            that.subtitles[code] = this;
+        
+        // Use native for loop instead of jQuery .each() for better performance
+        for (var j = 0; j < subtitles.length; j++) {
+            var subtitle = subtitles[j];
+            var code = subtitle.code;
+            that.subtitles[code] = subtitle;
             i++;
-        });
+        }
 
         $log("Downloaded " + i + " subtitles");
         this.trigger("subtitles:added", subtitles);

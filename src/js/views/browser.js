@@ -194,14 +194,26 @@ App.Views.BrowserPage = Backbone.View.extend({
         return true;
     },
     setGenreDropDown: function(action) {
-        $('#id_genres').empty();
+        var $genres = $('#id_genres');
+        $genres.empty();
+        
         if (this.collection.options.genres.length > 0) {
+            // Batch DOM operations by building options array first
+            var options = [];
+            
             if (this.collection.options.genres.length > 1) {
-                $('#id_genres').append(new Option('All Genres', ''));
+                options.push(new Option('All Genres', ''));
             }
+            
             _.each(this.collection.options.genres.models, function(genre, key, list) {
-                $('#id_genres').append(new Option(genre.get("name"), genre.get("id")));
+                options.push(new Option(genre.get("name"), genre.get("id")));
             });
+            
+            // Single DOM operation with all options
+            for (var i = 0; i < options.length; i++) {
+                $genres.append(options[i]);
+            }
+            
             this.$('#id_genres option[value="' + this.collection.querystate.get('genres') + '"]').attr('selected', 'selected');
         }
     },
@@ -265,12 +277,18 @@ App.Views.BrowserPage = Backbone.View.extend({
             periods: undefined,
             durations: undefined
         };
-        $("#search-form select option[selected=selected]").each(function() {
-            var fieldid = $(this).parent().attr("id");
+        
+        // Optimize selector - use :selected instead of attribute selector and cache form
+        var $searchForm = $("#search-form");
+        $searchForm.find("select option:selected").each(function() {
+            var $this = $(this);
+            var $parent = $this.parent();
+            var fieldid = $parent.attr("id");
             var fieldname = fieldid.replace("id_", "");
-            var val = $(this).val();
+            var val = $this.val();
             search_dict[fieldname] = search_dict[fieldname] === undefined ? val : search_dict[fieldname] += ";" + val;
         });
+        
         if (JSON.stringify(search_dict) !== JSON.stringify(this.collection.querystate.attributes)) {
             this.collection.querystate.set(search_dict);
         } else {

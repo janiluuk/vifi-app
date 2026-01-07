@@ -23,10 +23,11 @@ App.Utils = {
     },
 
     translate: function(string) {
-        var str = _.filter(App.Translations[App.Settings.language], function(item,key) { if (key === string) return item});
-        if (!_.isEmpty(str)) return str[0];
-        return string;
-
+        // Use _.find() instead of _.filter()[0] for better performance
+        var str = _.find(App.Translations[App.Settings.language], function(item, key) { 
+            return key === string; 
+        });
+        return str ? str : string;
     },
     template: function(id) {
         return _.template( $('#'+id).html());
