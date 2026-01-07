@@ -59,53 +59,61 @@ App.Views.FilterView = Backbone.View.extend({
 
     },
     onChangeFilter: function(field, val) {
-
-        $("#id_" + field + " option").each(function() {
+        // Cache selector for better performance
+        var $field = $("#id_" + field);
+        var $options = $field.find("option");
+        
+        $options.each(function() {
+            var $this = $(this); // Cache $(this) for reuse
             if (val === "reset") {
-                $(this).attr("selected", this.value !== "" ? false : "selected");
+                $this.attr("selected", this.value !== "" ? false : "selected");
             } else if (this.value === val) {
-                var sel = $(this).attr("selected");
-
-                $(this).attr("selected", !sel ? "selected" : false);
+                var sel = $this.attr("selected");
+                $this.attr("selected", !sel ? "selected" : false);
             }
         });
-        $("#id_" + field).trigger("change");
+        $field.trigger("change");
     },
     updateUI: function() {
         var _this = this;
+        var $clearButton = $("button.clear");
+        
+        // Update clear button state
         if (this.options.state.isDefault() === true) { 
-            $("button.clear").addClass("disabled");
+            $clearButton.addClass("disabled");
         } else {
-            $("button.clear").removeClass("disabled");
+            $clearButton.removeClass("disabled");
         }
 
+        // Optimize filter updates with cached selectors
         $.each(this.options.filters, function(option, idx) {
-
             var val = decodeURIComponent(_this.options.state.get(option));
+            var $select = $('#id_' + option);
+            var $wrapper = $(".selection-wrapper[data-field='" + option + "']");
 
             if (val !== "undefined" && val !== "") {
-
                 var parts = val.split(';');
 
                 if (parts.length > 0 && parts !== "undefined") {
+                    // Cache DOM queries outside the loop
+                    var $divs = $wrapper.find('div');
+                    var $resetDiv = $wrapper.find('div[data-val=reset]');
+                    
                     $.each(parts, function(idx, item) {
-                        $('#id_' + option + ' option[value="' + item + '"]').attr('selected', 'selected');
-                        $(".selection-wrapper[data-field='" + option + "'] div[data-val=" + item + "]").addClass("toggle-on");
-
+                        $select.find('option[value="' + item + '"]').attr('selected', 'selected');
+                        $wrapper.find('div[data-val=' + item + ']').addClass("toggle-on");
                     });
-                    $(".selection-wrapper[data-field='" + option + "'] div[data-val=reset]").removeClass("toggle-on");
+                    $resetDiv.removeClass("toggle-on");
                 } 
             } else {
-
-                $('#id_' + option + ' option').attr('selected', false);
-                $(".selection-wrapper[data-field='" + option + "'] div").removeClass("toggle-on");
-                $(".selection-wrapper[data-field='" + option + "'] div[data-val=reset]").addClass("toggle-on");
-
+                $select.find('option').attr('selected', false);
+                $wrapper.find('div').removeClass("toggle-on");
+                $wrapper.find('div[data-val=reset]').addClass("toggle-on");
             }
         });
+        
         var query = this.options.state.get('q');
         $('#main-search-box').val(query).trigger("keypress"); 
-
     },
     render: function() {
         this.filterbarview.render();
@@ -164,13 +172,26 @@ App.Views.FilterItemView = Backbone.View.extend({
     initDropDown: function() {
         var _this = this;
         var el = this.selectEl;
-        $('<select id="id_' + el + '" multiple></select>').appendTo("#filter-elements");
+        var $select = $('<select id="id_' + el + '" multiple></select>').appendTo("#filter-elements");
 
         if (this.filters.length > 0) {
-            $('#id_' + _this.selectEl).append(new Option('All Genres', ''));
+            // Use DocumentFragment for optimal DOM performance
+            var fragment = document.createDocumentFragment();
+            
+            // Add "All Genres" option
+            fragment.appendChild(new Option('All Genres', ''));
+            
+            // Build all filter options
             this.filters.each(function(filter) {
-                $("#id_" + _this.selectEl).append('<option value="' + filter.get("id") + '" data-val="' + filter.get("id") + '">' + filter.get("name") + '</option>');
+                var option = document.createElement('option');
+                option.value = filter.get("id");
+                option.setAttribute('data-val', filter.get("id"));
+                option.text = filter.get("name");
+                fragment.appendChild(option);
             });
+            
+            // Single DOM operation with all options at once
+            $select[0].appendChild(fragment);
         }
     },
     render: function() {

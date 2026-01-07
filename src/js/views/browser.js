@@ -85,8 +85,9 @@ App.Views.BrowserPage = Backbone.View.extend({
     el: '#browser-content',
     events: {
         'change #search-form select': 'onSearchFieldChange',
-        'change #search-form input[type="text"]': 'onSearchFieldChange',
         'change #search-form input[type="hidden"]': 'onSearchFieldChange',
+        'keyup #search-form input[type="text"]': 'debouncedSearchFieldChange',
+        'change #search-form input[type="text"]': 'onSearchFieldChange',
         'click #loadMore': 'onLoadMore'
     },
     initialize: function(options) {
@@ -111,6 +112,11 @@ App.Views.BrowserPage = Backbone.View.extend({
         });
         this.searchview.render();
         _.bindAll(this, 'render', 'renderResults', 'initEvents', 'applyIsotope');
+        
+        // Create debounced version of search field change handler for better performance
+        // Reduces API calls and improves responsiveness with 400ms delay
+        this.debouncedSearchFieldChange = _.debounce(this.onSearchFieldChange, 400);
+        
         this.initEvents();
     },
     initEvents: function() {
@@ -194,14 +200,24 @@ App.Views.BrowserPage = Backbone.View.extend({
         return true;
     },
     setGenreDropDown: function(action) {
-        $('#id_genres').empty();
+        var $genres = $('#id_genres');
+        $genres.empty();
+        
         if (this.collection.options.genres.length > 0) {
+            // Use DocumentFragment for optimal DOM performance
+            var fragment = document.createDocumentFragment();
+            
             if (this.collection.options.genres.length > 1) {
-                $('#id_genres').append(new Option('All Genres', ''));
+                fragment.appendChild(new Option('All Genres', ''));
             }
+            
             _.each(this.collection.options.genres.models, function(genre, key, list) {
-                $('#id_genres').append(new Option(genre.get("name"), genre.get("id")));
+                fragment.appendChild(new Option(genre.get("name"), genre.get("id")));
             });
+            
+            // Single DOM operation with all options at once
+            $genres[0].appendChild(fragment);
+            
             this.$('#id_genres option[value="' + this.collection.querystate.get('genres') + '"]').attr('selected', 'selected');
         }
     },
@@ -265,12 +281,18 @@ App.Views.BrowserPage = Backbone.View.extend({
             periods: undefined,
             durations: undefined
         };
-        $("#search-form select option[selected=selected]").each(function() {
-            var fieldid = $(this).parent().attr("id");
+        
+        // Optimize selector - use :selected instead of attribute selector and cache form
+        var $searchForm = $("#search-form");
+        $searchForm.find("select option:selected").each(function() {
+            var $this = $(this);
+            var $parent = $this.parent();
+            var fieldid = $parent.attr("id");
             var fieldname = fieldid.replace("id_", "");
-            var val = $(this).val();
+            var val = $this.val();
             search_dict[fieldname] = search_dict[fieldname] === undefined ? val : search_dict[fieldname] += ";" + val;
         });
+        
         if (JSON.stringify(search_dict) !== JSON.stringify(this.collection.querystate.attributes)) {
             this.collection.querystate.set(search_dict);
         } else {
