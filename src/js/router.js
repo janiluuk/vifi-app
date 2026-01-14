@@ -140,7 +140,7 @@
         search: function(searchStateHash) {
             var currentPage = this.currentPage;
             if (!app.collection.querystate.isDefault()) app.collection.querystate.setQueryString();
-            if (currentPage != "homePage" && currentPage != "search" && currentPage != "root") {
+            if (currentPage !== "homePage" && currentPage !== "search" && currentPage !== "root") {
                 app.showBrowserPage();
             }
             this.trigger("change:title", "Search results");
@@ -244,10 +244,10 @@
         },
         homePage: function() {
             var currentPage = this.currentPage;
-            if (currentPage != "homePage" && currentPage != "search" && currentPage != "root") {
+            if (currentPage !== "homePage" && currentPage !== "search" && currentPage !== "root") {
                 app.showBrowserPage();
             }
-            if (currentPage == "showFilm") {
+            if (currentPage === "showFilm") {
                 app.collection.querystate.setQueryString();
             }
             this.trigger("change:title", "Home");
@@ -358,7 +358,7 @@
             var name = template.split("-").join("");
             if (_.isEmpty(title)) {
                 title = _.find(App.ContentPages, function(title, idx) {
-                    return idx == name
+                    return idx === name
                 });
             }
             this.trigger("change:title", title);

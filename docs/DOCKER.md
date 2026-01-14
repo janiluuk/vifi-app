@@ -10,11 +10,17 @@ The fastest way to get started on localhost:
 # 1. Copy the localhost environment configuration
 cp .env.local.example .env
 
-# 2. Start the application
+# 2. (REQUIRED) Add your Flowplayer license keys to .env
+# Edit .env and add your FLOWPLAYER_* keys
+# Get keys from https://flowplayer.com/
+
+# 3. Start the application
 docker compose -f docker/docker-compose.yml up -d
 
-# 3. Access at http://localhost:8080
+# 4. Access at http://localhost:8080
 ```
+
+> ⚠️ **Important:** Video playback requires Flowplayer license keys. See [Environment Configuration](#environment-configuration) for details.
 
 ## Table of Contents
 
@@ -129,6 +135,20 @@ cp .env.example .env
 - `GOOGLE_ANALYTICS_CODE` - Your GA tracking ID
 - `SENTRY_DSN` - Error monitoring endpoint
 - `FACEBOOK_APP_ID` - For social login
+
+**Critical Security Settings (Phase 1 - Required for video playback):**
+- `FLOWPLAYER_FP6_KEY` - Flowplayer 6 license key
+- `FLOWPLAYER_HTML5_KEY` - Flowplayer HTML5 license key
+- `FLOWPLAYER_FLASH_KEY` - Flowplayer Flash license key (legacy)
+- `FLOWPLAYER_FP7_TOKEN` - Flowplayer 7 JWT token
+- `COOKIE_DOMAIN` - Domain for session cookies (e.g., `.example.com`)
+
+**Optional Performance Settings (Phase 4):**
+- `PERFORMANCE_ENDPOINT` - Custom endpoint for performance metrics
+- `DISQUS_SHORTNAME` - Disqus comments integration
+- `CACHED_INIT_URL` - CDN URL for cached initialization data
+
+> ⚠️ **Important:** All Flowplayer keys must be set for video playback to work. Get your keys from [flowplayer.com](https://flowplayer.com/).
 
 ### Custom Configuration
 

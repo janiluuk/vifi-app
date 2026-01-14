@@ -348,7 +348,7 @@ App.User.Profile = App.Models.ApiModel.extend({
     connectFB: function(fbuser) {
 
         var id = fbuser.get("id");
-        if (parseInt(id) && parseInt(id)>0) {
+        if (parseInt(id, 10) && parseInt(id, 10)>0) {
 
             this.set("profile_picture", 'https://graph.facebook.com/' + id + '/picture')
             this.set("lastname", fbuser.get("last_name"));
@@ -458,7 +458,7 @@ App.User.Profile = App.Models.ApiModel.extend({
         }).done(function() {
                  if (app.fbuser) {
                         _this.trigger("user:facebook-connect", app.fbuser);
-                        if (app.fbuser.get("id") !== "" && parseInt(app.fbuser.get("id")) > 0)
+                        if (app.fbuser.get("id") !== "" && parseInt(app.fbuser.get("id"), 10) > 0)
                         _this.set("profile_picture", 'https://graph.facebook.com/' + app.fbuser.get("id") + '/picture')
                 }
 

@@ -84,7 +84,7 @@ App.Collections.PaginatedCollection = Backbone.PageableCollection.extend({
     },
     featured: function() {
         var items = this.fullCollection.filter(function(data) {
-            return data.get("featured") == 1
+            return data.get("featured") === 1
         });
         return items;
     },

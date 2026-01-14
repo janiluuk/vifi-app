@@ -696,6 +696,7 @@ App.Player.Subtitles = Backbone.Model.extend({
         var subtitledata = {};
 
         for (var s in srt_) {
+            if (!srt_.hasOwnProperty(s)) continue;
             var st = srt_[s].split('\n');
             if (st.length >= 2) {
 
@@ -742,6 +743,7 @@ App.Player.Subtitles = Backbone.Model.extend({
             var currentTime = app.player.getCurrentTime();
             var subtitle = -1;
             for (var s in subtitledata) {
+                if (!subtitledata.hasOwnProperty(s)) continue;
                 if (s > currentTime) break;
                 subtitle = s;
             }
