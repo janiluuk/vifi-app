@@ -172,7 +172,7 @@ App.Views.EventStatusView = Backbone.View.extend({
         var timestamp = date.getTime();
         var time = (timestamp-statustime);
 
-        if (parseInt(time) > 0 && statusText === 'live') {
+        if (parseInt(time, 10) > 0 && statusText === 'live') {
             var progress = App.Utils.convertMstoHumanReadable(time,true).toString();
         } else {
             var progress = '';

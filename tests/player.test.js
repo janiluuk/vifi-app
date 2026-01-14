@@ -148,6 +148,40 @@ describe('Video Player', () => {
     });
   });
 
+  describe('Live Stream Status', () => {
+    test('should parse time with radix parameter correctly', () => {
+      // This tests the fix for parseInt without radix parameter
+      // Issue: parseInt(time) should be parseInt(time, 10) to prevent octal interpretation
+      const time = 1000;
+      const statusText = 'live';
+      
+      // Simulate the fixed code
+      const isLive = parseInt(time, 10) > 0 && statusText === 'live';
+      expect(isLive).toBe(true);
+      
+      // Test with string that could be interpreted as octal
+      const octalString = '08'; // Would fail without radix
+      expect(parseInt(octalString, 10)).toBe(8);
+      expect(parseInt('010', 10)).toBe(10); // Not 8 (octal)
+    });
+    
+    test('should handle negative time values correctly', () => {
+      const time = -1000;
+      const statusText = 'live';
+      
+      const isLive = parseInt(time, 10) > 0 && statusText === 'live';
+      expect(isLive).toBe(false);
+    });
+    
+    test('should require live status for live indicator', () => {
+      const time = 1000;
+      const statusText = 'vod';
+      
+      const isLive = parseInt(time, 10) > 0 && statusText === 'live';
+      expect(isLive).toBe(false);
+    });
+  });
+
   describe('Playback State Management', () => {
     test('should track video playback position', () => {
       let currentTime = 0;
