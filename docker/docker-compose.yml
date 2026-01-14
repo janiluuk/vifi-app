@@ -20,11 +20,18 @@ services:
         # App settings
         - SITE_NAME=${SITE_NAME:-Vifi Local}
         - DISQUS_SHORTNAME=${DISQUS_SHORTNAME:-vifi}
-        # Keys & integrations
+        - COOKIE_DOMAIN=${COOKIE_DOMAIN:-.localhost}
+        # Keys & integrations (Phase 1 security enhancement)
         - API_KEY=${API_KEY:-}
+        - FLOWPLAYER_FP6_KEY=${FLOWPLAYER_FP6_KEY:-}
+        - FLOWPLAYER_HTML5_KEY=${FLOWPLAYER_HTML5_KEY:-}
+        - FLOWPLAYER_FLASH_KEY=${FLOWPLAYER_FLASH_KEY:-}
+        - FLOWPLAYER_FP7_TOKEN=${FLOWPLAYER_FP7_TOKEN:-}
         - FACEBOOK_APP_ID=${FACEBOOK_APP_ID}
         - GOOGLE_ANALYTICS_CODE=${GOOGLE_ANALYTICS_CODE:-}
         - SENTRY_DSN=${SENTRY_DSN}
+        # Performance monitoring (Phase 4 enhancement)
+        - PERFORMANCE_ENDPOINT=${PERFORMANCE_ENDPOINT:-}
         # Social media & external links
         - WWW_URL=${WWW_URL:-//localhost:8080}
         - SOCIAL_FACEBOOK_URL=${SOCIAL_FACEBOOK_URL:-https://www.facebook.com/pages/Vifiee/385723814833754}
