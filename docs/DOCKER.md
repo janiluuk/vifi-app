@@ -11,7 +11,7 @@ The fastest way to get started on localhost:
 cp .env.local.example .env
 
 # 2. Start the application
-docker compose up -d
+docker compose -f docker/docker-compose.yml up -d
 
 # 3. Access at http://localhost:8080
 ```
@@ -28,11 +28,11 @@ docker compose up -d
 
 The repository provides three different Docker Compose configurations for different scenarios:
 
-### 1. docker-compose.yml (Production Build)
+### 1. docker/docker-compose.yml (Production Build)
 
 **Best for:** Production deployments, full environment control
 
-This configuration builds the application inside Docker using `Dockerfile.build`, allowing you to configure all environment variables through the `.env` file.
+This configuration builds the application inside Docker using `docker/Dockerfile.build`, allowing you to configure all environment variables through the `.env` file.
 
 ```bash
 # Setup
@@ -42,7 +42,7 @@ cp .env.example .env        # For production
 # Edit .env with your values
 
 # Run
-docker compose up -d
+docker compose -f docker/docker-compose.yml up -d
 
 # Access at http://localhost:8080
 ```
@@ -54,7 +54,7 @@ docker compose up -d
 - ✅ Configurable port via `PORT` environment variable
 - ⚠️ Longer build time (~2-5 minutes)
 
-### 2. docker-compose.simple.yml (Pre-built Serve)
+### 2. docker/docker-compose.simple.yml (Pre-built Serve)
 
 **Best for:** Quick testing, CI/CD pipelines, when you already have a build
 
@@ -65,7 +65,7 @@ This configuration simply serves a pre-built `dist/` folder using nginx. You mus
 npm run build
 
 # 2. Serve with Docker
-docker compose -f docker-compose.simple.yml up -d
+docker compose -f docker/docker-compose.simple.yml up -d
 
 # Access at http://localhost:8080
 ```
@@ -77,7 +77,7 @@ docker compose -f docker-compose.simple.yml up -d
 - ✅ Easy to integrate with CI/CD
 - ⚠️ Requires local build first
 
-### 3. docker-compose.dev.yml (Development Mode)
+### 3. docker/docker-compose.dev.yml (Development Mode)
 
 **Best for:** Active development, testing changes
 
@@ -85,7 +85,7 @@ This configuration runs webpack in watch mode, automatically rebuilding when sou
 
 ```bash
 # Start development environment
-docker compose -f docker-compose.dev.yml up
+docker compose -f docker/docker-compose.dev.yml up
 
 # Files in src/ are watched and automatically rebuilt
 # Build output: dist/ served at http://localhost:8080
@@ -146,14 +146,14 @@ PORT=3000 docker compose up -d
 
 ## Docker Compose Files Explained
 
-### docker-compose.yml
+### docker/docker-compose.yml
 
 ```yaml
 services:
   frontend:
     build:
-      context: .
-      dockerfile: Dockerfile.build
+      context: ..
+      dockerfile: docker/Dockerfile.build
       args:
         - API_URL=${API_URL:-//localhost:3000/api/}
         # ... all environment variables passed as build args
@@ -168,14 +168,14 @@ services:
 - Configurable port (default: 8080)
 - Isolated network for security
 
-### docker-compose.simple.yml
+### docker/docker-compose.simple.yml
 
 ```yaml
 services:
   frontend:
     image: nginx:alpine
     volumes:
-      - ./dist:/usr/share/nginx/html:ro
+      - ../dist:/usr/share/nginx/html:ro
       - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
     ports:
       - "${PORT:-8080}:80"
@@ -186,7 +186,7 @@ services:
 - Read-only mounts for security
 - No build step required
 
-### docker-compose.dev.yml
+### docker/docker-compose.dev.yml
 
 ```yaml
 services:
@@ -194,13 +194,13 @@ services:
     image: node:20-alpine
     command: sh -c "npm install && npm run watch"
     volumes:
-      - .:/app
+      - ..:/app
       - /app/node_modules
     
   frontend-serve:
     image: nginx:alpine
     volumes:
-      - ./dist:/usr/share/nginx/html:ro
+      - ../dist:/usr/share/nginx/html:ro
     depends_on:
       - frontend-dev
 ```
@@ -217,17 +217,17 @@ services:
 ```bash
 # Start and test locally
 cp .env.local.example .env
-docker compose up -d
+docker compose -f docker/docker-compose.yml up -d
 
 # Watch logs
-docker compose logs -f
+docker compose -f docker/docker-compose.yml logs -f
 
 # Rebuild after changes
-docker compose up -d --build
+docker compose -f docker/docker-compose.yml up -d --build
 
 # Clean restart
-docker compose down
-docker compose up -d --build
+docker compose -f docker/docker-compose.yml down
+docker compose -f docker/docker-compose.yml up -d --build
 ```
 
 ### Development with Hot Reload
@@ -251,11 +251,11 @@ cp .env.example .env
 nano .env  # Edit with production values
 
 # 2. Build and deploy
-docker compose up -d --build
+docker compose -f docker/docker-compose.yml up -d --build
 
 # 3. Verify deployment
-docker compose ps
-docker compose logs frontend
+docker compose -f docker/docker-compose.yml ps
+docker compose -f docker/docker-compose.yml logs frontend
 
 # 4. Health check
 curl http://localhost:8080
@@ -271,7 +271,7 @@ npm ci
 npm run build
 
 # Deploy with simple compose
-docker compose -f docker-compose.simple.yml up -d
+docker compose -f docker/docker-compose.simple.yml up -d
 
 # Run smoke tests
 curl -f http://localhost:8080 || exit 1
@@ -331,25 +331,25 @@ docker stop <container-id>
 # Solution 1: Use simple compose with local build
 npm install
 npm run build
-docker compose -f docker-compose.simple.yml up -d
+docker compose -f docker/docker-compose.simple.yml up -d
 
 # Solution 2: Clear Docker cache
-docker compose down
+docker compose -f docker/docker-compose.yml down
 docker system prune -a
-docker compose up -d --build
+docker compose -f docker/docker-compose.yml up -d --build
 ```
 
 ### Cannot Access Application
 
 ```bash
 # Check container status
-docker compose ps
+docker compose -f docker/docker-compose.yml ps
 
 # Check logs
-docker compose logs frontend
+docker compose -f docker/docker-compose.yml logs frontend
 
 # Verify port mapping
-docker compose port frontend 80
+docker compose -f docker/docker-compose.yml port frontend 80
 
 # Test connection
 curl -I http://localhost:8080
@@ -361,12 +361,12 @@ curl -I http://localhost:8080
 # Remember: environment variables are injected at BUILD time
 
 # Solution: Rebuild after changing .env
-docker compose down
-docker compose up -d --build
+docker compose -f docker/docker-compose.yml down
+docker compose -f docker/docker-compose.yml up -d --build
 
 # Or force rebuild
-docker compose build --no-cache
-docker compose up -d
+docker compose -f docker/docker-compose.yml build --no-cache
+docker compose -f docker/docker-compose.yml up -d
 ```
 
 ### Development Mode Not Rebuilding
@@ -386,7 +386,7 @@ docker compose -f docker-compose.dev.yml restart frontend-dev
 
 ```bash
 # Clean up Docker resources
-docker compose down
+docker compose -f docker/docker-compose.yml down
 docker system prune -a --volumes
 
 # Remove specific images
@@ -412,9 +412,9 @@ docker compose run --user $(id -u):$(id -g) frontend-dev
 
 ```bash
 # Combine configurations
-docker compose -f docker-compose.yml -f docker-compose.override.yml up -d
+docker compose -f docker/docker-compose.yml -f docker/docker-compose.override.yml up -d
 
-# Example override file (docker-compose.override.yml):
+# Example override file (docker/docker-compose.override.yml):
 services:
   frontend:
     environment:
@@ -426,7 +426,7 @@ services:
 
 ### Health Checks
 
-Add health checks to docker-compose.yml:
+Add health checks to docker/docker-compose.yml:
 
 ```yaml
 services:

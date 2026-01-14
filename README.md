@@ -195,28 +195,28 @@ npm run build
 
 The application includes comprehensive Docker support for easy deployment with multiple options for different scenarios.
 
-**📖 For detailed Docker instructions, see [DOCKER.md](DOCKER.md)**
+**📖 For detailed Docker instructions, see [DOCKER.md](docs/DOCKER.md)**
 
 **Quick Start (Localhost):**
 ```bash
 cp .env.local.example .env
-docker compose up -d
+docker compose -f docker/docker-compose.yml up -d
 # Access at http://localhost:8080
 ```
 
 There are three Docker Compose configurations available:
-- **docker-compose.yml** - Full production build with environment control
-- **docker-compose.simple.yml** - Quick serve of pre-built dist/ folder
-- **docker-compose.dev.yml** - Development mode with hot reload
+- **docker/docker-compose.yml** - Full production build with environment control
+- **docker/docker-compose.simple.yml** - Quick serve of pre-built dist/ folder
+- **docker/docker-compose.dev.yml** - Development mode with hot reload
 
-For detailed instructions on each option, troubleshooting, and advanced configurations, see [DOCKER.md](DOCKER.md).
+For detailed instructions on each option, troubleshooting, and advanced configurations, see [DOCKER.md](docs/DOCKER.md).
 
 #### Standard Dockerfile Options
 
 There are two Dockerfile options:
 
-1. **Dockerfile** (recommended) - Serves pre-built `dist/` folder
-2. **Dockerfile.build** - Multi-stage build (may have npm issues in some environments)
+1. **docker/Dockerfile** (recommended) - Serves pre-built `dist/` folder
+2. **docker/Dockerfile.build** - Multi-stage build (may have npm issues in some environments)
 
 #### Method 1: Simple Docker Deployment (Recommended)
 
@@ -237,14 +237,14 @@ docker run -p 8080:80 vifi-frontend
 
 #### Method 2: Multi-stage Build with Docker
 
-Use `Dockerfile.build` to build everything inside Docker:
+Use `docker/Dockerfile.build` to build everything inside Docker:
 
 ```bash
 # Build with default settings
-docker build -f Dockerfile.build -t vifi-frontend .
+docker build -f docker/Dockerfile.build -t vifi-frontend .
 
 # Build with custom environment variables
-docker build -f Dockerfile.build \
+docker build -f docker/Dockerfile.build \
   --build-arg API_URL=//api.mysite.com/api/ \
   --build-arg API_KEY=my-secret-key \
   --build-arg MAIN_DOMAIN=mysite.com \
@@ -260,7 +260,7 @@ Three docker-compose configurations are available depending on your needs:
 
 ##### Option 1: Full Build (Recommended for Production)
 
-Uses `docker-compose.yml` - Builds the application inside Docker with all environment variables.
+Uses `docker/docker-compose.yml` - Builds the application inside Docker with all environment variables.
 
 1. **Create or edit `.env` file** with your configuration:
 
@@ -277,38 +277,38 @@ cp .env.local.example .env
 
 ```bash
 # Build and start the container
-docker compose up -d
+docker compose -f docker/docker-compose.yml up -d
 
 # View logs
-docker compose logs -f
+docker compose -f docker/docker-compose.yml logs -f
 
 # Stop the container
-docker compose down
+docker compose -f docker/docker-compose.yml down
 ```
 
 The application will be available at `http://localhost:8080`.
 
 ##### Option 2: Simple Serve (Fastest for Local Testing)
 
-Uses `docker-compose.simple.yml` - Serves pre-built `dist/` folder. Build locally first:
+Uses `docker/docker-compose.simple.yml` - Serves pre-built `dist/` folder. Build locally first:
 
 ```bash
 # 1. Build the application
 npm run build
 
 # 2. Start the server
-docker compose -f docker-compose.simple.yml up -d
+docker compose -f docker/docker-compose.simple.yml up -d
 
 # The application will be available at http://localhost:8080
 ```
 
 ##### Option 3: Development Mode with Hot Reload
 
-Uses `docker-compose.dev.yml` - Runs webpack in watch mode for development:
+Uses `docker/docker-compose.dev.yml` - Runs webpack in watch mode for development:
 
 ```bash
 # Start development environment
-docker compose -f docker-compose.dev.yml up
+docker compose -f docker/docker-compose.dev.yml up
 
 # The build output will be in dist/ and served at http://localhost:8080
 # Webpack watch mode runs on http://localhost:3000
@@ -744,7 +744,22 @@ Vifi.ee-frontend/
 ├── webpack.config.js    # Webpack configuration
 ├── babel.config.js      # Babel configuration
 ├── eslint.config.js     # ESLint configuration
-├── API_DOCUMENTATION.md # API documentation
+├── docs/                # Documentation
+│   ├── API_DOCUMENTATION.md # API documentation
+│   ├── DOCKER.md        # Docker deployment guide
+│   ├── ENVIRONMENT_VARIABLES.md # Environment configuration
+│   └── apiary.apib      # API Blueprint specification
+├── docker/              # Docker configuration
+│   ├── Dockerfile       # Production Docker image
+│   ├── Dockerfile.build # Multi-stage build Docker image
+│   ├── docker-compose.yml       # Production compose
+│   ├── docker-compose.simple.yml # Simple serve compose
+│   ├── docker-compose.dev.yml   # Development compose
+│   ├── nginx.conf       # Nginx configuration
+│   └── .dockerignore    # Docker ignore file
+├── scripts/             # Build and utility scripts
+│   ├── build-vendors.sh # Build vendor bundles
+│   └── pack.sh          # Packaging script
 └── README.md           # This file
 ```
 
@@ -809,9 +824,9 @@ Vifi.ee-frontend/
 
 ## Documentation
 
-- **[API_DOCUMENTATION.md](API_DOCUMENTATION.md)**: Complete API reference, data flows, and integration guide
+- **[API_DOCUMENTATION.md](docs/API_DOCUMENTATION.md)**: Complete API reference, data flows, and integration guide
 - **[tests/README.md](tests/README.md)**: Test suite documentation
-- **[apiary.apib](apiary.apib)**: Full API specification in API Blueprint format
+- **[apiary.apib](docs/apiary.apib)**: Full API specification in API Blueprint format
 
 ### 📋 Code Quality and Optimization Documentation
 
@@ -934,7 +949,7 @@ This project is licensed under the ISC License.
 
 For questions or issues:
 - Open an issue on [GitHub](https://github.com/janiluuk/Vifi.ee-frontend/issues)
-- Check existing [API documentation](API_DOCUMENTATION.md)
+- Check existing [API documentation](docs/API_DOCUMENTATION.md)
 - Review [test documentation](tests/README.md)
 
 ## Author
