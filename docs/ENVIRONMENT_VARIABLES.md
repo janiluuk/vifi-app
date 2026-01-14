@@ -171,7 +171,7 @@ npm run build
 For Docker deployments, environment variables can be passed as build arguments:
 
 ```bash
-docker build -f Dockerfile.build \
+docker build -f docker/Dockerfile.build \
   --build-arg API_URL=//api.mysite.com/api/ \
   --build-arg API_KEY=my-secret-key \
   --build-arg MAIN_DOMAIN=mysite.com \
@@ -185,7 +185,7 @@ Or use docker-compose with a .env file:
 cp .env.example .env
 
 # Build and run
-docker-compose up -d
+docker compose -f docker/docker-compose.yml up -d
 ```
 
 ### Security Considerations
@@ -235,6 +235,6 @@ Old hardcoded values in `settings.js` will be replaced by environment variables.
 ## Support
 
 For issues or questions:
-- Check the main [README.md](README.md) for general documentation
+- Check the main [README.md](../README.md) for general documentation
 - Review [API_DOCUMENTATION.md](API_DOCUMENTATION.md) for API details
 - Open an issue on GitHub if you encounter problems

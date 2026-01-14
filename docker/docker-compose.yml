@@ -3,8 +3,8 @@ version: '3.8'
 services:
   frontend:
     build:
-      context: .
-      dockerfile: Dockerfile.build
+      context: ..
+      dockerfile: docker/Dockerfile.build
       args:
         # Core URLs - customize these for your environment
         - API_URL=${API_URL:-//localhost:3000/api/}
