@@ -41,7 +41,7 @@ App.MediaPlayer = {
     },
     formatUrl: function(url) {
         if (!url) return false;
-        return url.substring(url.length - 3, url.length) == 'mp4' ? url.substring(url.length - 3, url.length) + ':' + url : url;
+        return url.substring(url.length - 3, url.length) === 'mp4' ? url.substring(url.length - 3, url.length) + ':' + url : url;
     },
     _createPlayer: function() {
 

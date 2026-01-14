@@ -17,13 +17,13 @@ App.MediaPlayer = {
     init: function(playlist) {
         $log("Calling init on FP7 player");
         if (playlist) this.setPlaylist(playlist);
-        if (playlist.getType() == "event") {
+        if (playlist.getType() === "event") {
             this.playerId = 'event-player-container';
         } else {
             this.playerId = 'player-container';
         }
         this._videoElement = $("#" + this.playerId);
-        if (this._videoElement.length == 0) {
+        if (this._videoElement.length === 0) {
             this._videoElement = $("<div>").attr("id", this.playerId).appendTo("#movie-player-container");
         }
         this._createPlayer();
@@ -44,7 +44,7 @@ App.MediaPlayer = {
             var playlist = this.playlist.getPlaylistFiles();
 
             var live = false;
-            if (type == 'event') {
+            if (type === 'event') {
                 
                 if (_.isEmpty(playlist)) {
                     this.trigger("mediaplayer:stream:offline");
@@ -152,7 +152,7 @@ App.MediaPlayer = {
             if (App.Settings.Player.convert_srt_to_vtt === true) { 
                 file = file.replace('.srt','.vtt');
             }
-            return {label: item.language, kind: 'subtitles', src: file, is_default: (item.code == 'et' || item.code == 'ee') };
+            return {label: item.language, kind: 'subtitles', src: file, is_default: (item.code === 'et' || item.code === 'ee') };
         });
         var config = {tracks: tracks};
 

@@ -17,7 +17,7 @@ App.MediaPlayer = {
         if (playlist) this.setPlaylist(playlist);
         var _this = this;
         this._videoElement = $("#" + this.playerId);
-        if (this._videoElement.length == 0) {
+        if (this._videoElement.length === 0) {
             this._videoElement = $("<div>").attr("id", this.playerId).appendTo("#movie-player-container");
         }
 

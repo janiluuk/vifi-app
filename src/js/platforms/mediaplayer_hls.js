@@ -18,7 +18,7 @@ App.MediaPlayer = {
         $log("Calling init on HLS player");
         if (playlist) this.setPlaylist(playlist);
         this._videoElement = $("#" + this.playerId);
-        if (this._videoElement.length == 0) {
+        if (this._videoElement.length === 0) {
             this._videoElement = $("<div>").attr("id", this.playerId).appendTo("#movie-player-container");
         }
         this._createPlayer();
