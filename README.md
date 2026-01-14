@@ -748,15 +748,15 @@ Vifi.ee-frontend/
 │   ├── API_DOCUMENTATION.md # API documentation
 │   ├── DOCKER.md        # Docker deployment guide
 │   ├── ENVIRONMENT_VARIABLES.md # Environment configuration
-│   └── apiary.apib      # API Blueprint specification
+│   ├── apiary.apib      # API Blueprint specification
+│   └── screenshot.png   # Application screenshot
 ├── docker/              # Docker configuration
 │   ├── Dockerfile       # Production Docker image
 │   ├── Dockerfile.build # Multi-stage build Docker image
 │   ├── docker-compose.yml       # Production compose
 │   ├── docker-compose.simple.yml # Simple serve compose
 │   ├── docker-compose.dev.yml   # Development compose
-│   ├── nginx.conf       # Nginx configuration
-│   └── .dockerignore    # Docker ignore file
+│   └── nginx.conf       # Nginx configuration
 ├── scripts/             # Build and utility scripts
 │   ├── build-vendors.sh # Build vendor bundles
 │   └── pack.sh          # Packaging script
