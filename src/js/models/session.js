@@ -54,7 +54,7 @@ App.User.FilmSession = App.Models.ApiModel.extend({
     },
 
     onSetDuration: function(duration) {
-        var seconds = parseInt(duration);
+        var seconds = parseInt(duration, 10);
         if (seconds > 0)
         this.set("timestamp", seconds);
     },

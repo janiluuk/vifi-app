@@ -167,7 +167,7 @@ App.Utils = {
                 var p = t.split(':');
                 for (var i = 0; i < p.length; i++) s = s * 60 + parseFloat(p[i].replace(',', '.'))
             }
-            return parseInt(s * 1000);
+            return parseInt(s * 1000, 10);
         },
         strip: function(s) {
             if (typeof(s) !== "undefined")
@@ -179,7 +179,7 @@ App.Utils = {
             var timeParts = s.split(' ')[1].split(':');
             if (_.isEmpty(timeParts[2])) timeParts[2] = 0;
 
-            return new Date(dateParts[0], parseInt(dateParts[1])-1, dateParts[2], timeParts[0], timeParts[1], timeParts[2], 0);
+            return new Date(dateParts[0], parseInt(dateParts[1], 10)-1, dateParts[2], timeParts[0], timeParts[1], timeParts[2], 0);
         },
 
         parseDateToHumanReadable: function(date) {

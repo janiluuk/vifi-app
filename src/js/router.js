@@ -140,7 +140,7 @@
         search: function(searchStateHash) {
             var currentPage = this.currentPage;
             if (!app.collection.querystate.isDefault()) app.collection.querystate.setQueryString();
-            if (currentPage != "homePage" && currentPage != "search" && currentPage != "root") {
+            if (currentPage !== "homePage" && currentPage !== "search" && currentPage !== "root") {
                 app.showBrowserPage();
             }
             this.trigger("change:title", "Search results");

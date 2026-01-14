@@ -29,7 +29,7 @@ App.Settings = {
                 path : '/', 
                 domain: process.env.COOKIE_DOMAIN || '.example.com',
                 secure: true,  // Only send over HTTPS
-                sameSite: 'Lax'  // CSRF protection
+                sameSite: 'Strict'  // Strong CSRF protection for authentication cookies
             },
             purchase_cookie_name: 'film',
         },
@@ -57,10 +57,10 @@ App.Settings = {
 
         Player:  {
             defaultMediaPlayer: 'fp7',
-            flowplayer_fp6_key: '$202296466927761',
-            flowplayer_flash_key:  '#$05466e2f492e2ca07a3',
-            flowplayer_html5_key: '$202296466927761',
-            flowplayer_fp7_token: 'eyJraWQiOiJMNE5JZWNidlR5T0MiLCJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiJ9.eyJjIjoie1wiYWNsXCI6NCxcImlkXCI6XCJMNE5JZWNidlR5T0NcIn0iLCJpc3MiOiJGbG93cGxheWVyIn0.Ji_KqLLl5wJm28h1wdv_Lb1QSC-_9NyA7mIZS4HHIlIr6V29c3UYYkFsbo2jZQON35f_PC4xHk7hqLIGwMnJIw',
+            flowplayer_fp6_key: process.env.FLOWPLAYER_FP6_KEY || '',
+            flowplayer_flash_key: process.env.FLOWPLAYER_FLASH_KEY || '',
+            flowplayer_html5_key: process.env.FLOWPLAYER_HTML5_KEY || '',
+            flowplayer_fp7_token: process.env.FLOWPLAYER_FP7_TOKEN || '',
             hls_url: process.env.HLS_URL || 'https://media.example.com/vod/vod',
             mp4_url: process.env.MP4_URL || '//cdn.example.com/zsf/',
             rtmp_url: process.env.RTMP_URL || 'rtmp://media.example.com/vod',
