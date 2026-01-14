@@ -1,4 +1,8 @@
 $(document).ready(function() {
+    // Use initCached() instead of init() for faster load with cached data
+    // Requires CACHED_INIT_URL environment variable to be set
+    // Falls back to init() if cached data fails to load
+    // Example: initCached();
     init();
 });
 
@@ -112,7 +116,21 @@ function init() {
 
 function initCached() {
     var cachedUrl = process.env.CACHED_INIT_URL || "//www.example.com/init.json";
-    $.getJSON(cachedUrl, function(data) { var parsed = JSON.parse(data); initApp(parsed)}, "json");
+    
+    $.ajax({
+        url: cachedUrl,
+        dataType: "json",
+        timeout: 2000,  // 2 second timeout for cached data
+        success: function(data) {
+            console.log("Loaded cached init data from:", cachedUrl);
+            initApp(data);
+        },
+        error: function(xhr, status, error) {
+            console.warn("Failed to load cached init data, falling back to API:", error);
+            // Fallback to regular initialization
+            init();
+        }
+    });
 }
 
 
