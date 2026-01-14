@@ -71,6 +71,13 @@ window.app = _.extend({}, Backbone.Events);
                 app.on('app:ready', function() {
                             $log("App ready, finished at "+new Date().getTime());
                              app.usercollection.fetch();
+                             
+                             // Report Web Vitals (Phase 4 performance monitoring enhancement)
+                             if (App.Settings.performance_monitoring_enabled && App.Utils.Performance) {
+                                 setTimeout(function() {
+                                     App.Utils.Performance.reportWebVitals();
+                                 }, 1000);
+                             }
 
                 }.bind(this));
 

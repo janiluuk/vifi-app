@@ -14,6 +14,9 @@ App.Settings = {
 	    sentry_dsn: process.env.SENTRY_DSN || '',
         google_analytics_enabled: true,
         google_analytics_code: process.env.GOOGLE_ANALYTICS_CODE || 'UA-XXXXX-1',
+        // Performance monitoring endpoint (Phase 4 enhancement)
+        performance_monitoring_enabled: true,
+        performance_endpoint: process.env.PERFORMANCE_ENDPOINT || '',
         rt_api_key: '',
         facebook_app_id: process.env.FACEBOOK_APP_ID || '',
         commentsEnabled: true,
@@ -79,7 +82,7 @@ App.Settings = {
                   totalPages: null,
                   totalRecords: null,
                   sortKey: 'sort',
-                  limit: 400
+                  limit: 100  // Optimized from 400 to 100 (Phase 3 performance improvement)
             },
 
             // Initial pagination states

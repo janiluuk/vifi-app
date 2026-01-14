@@ -52,6 +52,8 @@ module.exports = (env, argv) => {
     FLOWPLAYER_HTML5_KEY: '',
     FLOWPLAYER_FLASH_KEY: '',
     FLOWPLAYER_FP7_TOKEN: '',
+    // Performance monitoring endpoint (Phase 4 enhancement)
+    PERFORMANCE_ENDPOINT: '',
   };
 
   // Build the envVars object for DefinePlugin
