@@ -47,6 +47,11 @@ module.exports = (env, argv) => {
     SUPPORT_PHONE: '+372 58 667 570',
     SUPPORT_EMAIL: 'support@example.com',
     PRIVACY_URL: '//www.example.com/privacy',
+    // Flowplayer License Keys (added for Phase 1 security fixes)
+    FLOWPLAYER_FP6_KEY: '',
+    FLOWPLAYER_HTML5_KEY: '',
+    FLOWPLAYER_FLASH_KEY: '',
+    FLOWPLAYER_FP7_TOKEN: '',
   };
 
   // Build the envVars object for DefinePlugin
@@ -65,6 +70,13 @@ module.exports = (env, argv) => {
       filename: isProduction ? 'js/[name].min.js' : 'js/[name].js',
       path: path.resolve(__dirname, 'dist'),
       clean: true,
+    },
+    // Enable webpack caching for faster rebuilds (Phase 3 performance optimization)
+    cache: {
+      type: 'filesystem',
+      buildDependencies: {
+        config: [__filename],
+      },
     },
     mode: argv.mode || 'development',
     devtool: isProduction ? 'source-map' : 'eval-source-map',
