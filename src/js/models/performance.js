@@ -260,7 +260,9 @@ App.Utils.Performance = {
         // Report Largest Contentful Paint (LCP) if available
         if (window.PerformanceObserver) {
             try {
+                /* eslint-disable no-undef */
                 var lcpObserver = new PerformanceObserver(function(list) {
+                    /* eslint-enable no-undef */
                     var entries = list.getEntries();
                     var lastEntry = entries[entries.length - 1];
                     self.report('largest_contentful_paint', lastEntry.renderTime || lastEntry.loadTime, {
@@ -275,7 +277,9 @@ App.Utils.Performance = {
             
             // Report First Input Delay (FID) if available
             try {
+                /* eslint-disable no-undef */
                 var fidObserver = new PerformanceObserver(function(list) {
+                    /* eslint-enable no-undef */
                     var entries = list.getEntries();
                     entries.forEach(function(entry) {
                         self.report('first_input_delay', entry.processingStart - entry.startTime, {
