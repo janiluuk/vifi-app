@@ -23,9 +23,10 @@ module.exports = defineConfig({
     },
   ],
 
-  webServer: process.env.CI ? undefined : {
-    command: 'npm run build:dev && python3 -m http.server 8080',
-    url: 'http://localhost:8080',
-    reuseExistingServer: !process.env.CI,
-  },
+  // Web server configuration commented out - configure based on your setup
+  // webServer: process.env.CI ? undefined : {
+  //   command: 'npm run build && python3 -m http.server 8080 --directory dist',
+  //   url: 'http://localhost:8080',
+  //   reuseExistingServer: !process.env.CI,
+  // },
 });

@@ -3,7 +3,7 @@ const { test, expect } = require('@playwright/test');
 
 /**
  * Critical Flow Tests for Vifi.ee
- * Testing the most important user journeys as outlined in ROADMAP_SUMMARY.md
+ * Testing the most important user journeys for the application
  */
 
 test.describe('Video Browsing and Search', () => {
@@ -26,7 +26,9 @@ test.describe('Video Browsing and Search', () => {
     
     if (await searchInput.isVisible()) {
       await searchInput.fill('test');
-      await page.waitForTimeout(1000); // Wait for debounce
+      
+      // Wait for network activity to settle after search input
+      await page.waitForLoadState('networkidle');
       
       // Verify search results or search functionality is working
       // Note: Actual assertions depend on the app's search implementation

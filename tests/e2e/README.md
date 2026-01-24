@@ -32,7 +32,7 @@ Currently implemented critical flows:
 
 ## To Do
 
-Additional critical flows to implement (as per ROADMAP_SUMMARY.md):
+Additional critical flows to implement:
 - [ ] Complete video playback flow (Browse → Select → Purchase → Watch)
 - [ ] Full authentication flow (Register, Login, Logout, Password Recovery)
 - [ ] Payment flows (Code, card, mobile payments)
@@ -65,4 +65,4 @@ The tests are configured to run in CI environments with:
 ## References
 
 - [Playwright Documentation](https://playwright.dev)
-- [ROADMAP_SUMMARY.md](../../ROADMAP_SUMMARY.md) for complete E2E testing requirements
+- [IMPLEMENTATION_SUMMARY.md](../../IMPLEMENTATION_SUMMARY.md) for implementation details and E2E testing status
