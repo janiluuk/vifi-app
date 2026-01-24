@@ -63,10 +63,12 @@ Permissions-Policy: geolocation=(), microphone=(), camera=()
 
 ## Nginx Configuration Example
 
+**Note:** Replace `www.example.com` and `*.example.com` with your actual domain names.
+
 ```nginx
 server {
     listen 443 ssl http2;
-    server_name www.example.com;
+    server_name www.example.com;  # Replace with your actual domain
     
     # Security Headers
     add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' *.google-analytics.com *.facebook.net *.disqus.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https: http:; media-src 'self' *.example.com blob:; connect-src 'self' *.example.com *.google-analytics.com wss:; font-src 'self' *.googleapis.com *.gstatic.com; frame-src 'self' *.facebook.com *.disqus.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests;" always;

@@ -67,7 +67,8 @@ test.describe('Video Player', () => {
       await page.waitForLoadState('networkidle');
       
       // Check that we're on a video detail page
-      await expect(page.url()).toContain(/film|video|watch/i);
+      const url = page.url();
+      expect(url.includes('film') || url.includes('video') || url.includes('watch')).toBeTruthy();
     }
   });
 });

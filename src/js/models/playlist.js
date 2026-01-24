@@ -199,7 +199,7 @@ App.Player.VideoFileCollection = Backbone.Collection.extend({
         var collection = this.findMinBitrate(bitrate);
         var curr = collection[0];
         if (collection.size === 1) return curr;
-        var item = _.map(collection.findMinBitrate(bitrate), function(item) {
+        _.each(collection.findMinBitrate(bitrate), function(item) {
             if (Math.abs(bitrate - item.get("bitrate")) < Math.abs(bitrate - curr.get("bitrate"))) curr = item;
         });
         return curr;
