@@ -32,3 +32,8 @@ build/
 # Webpack cache (Phase 3 performance optimization)
 .cache/
 node_modules/.cache/
+
+# Playwright
+playwright-report/
+test-results/
+playwright/.cache/
