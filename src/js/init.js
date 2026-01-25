@@ -100,7 +100,7 @@ window.app = _.extend({}, Backbone.Events);
 
 
 
-function init() {
+function init(skipCache) {
 
     app.trigger("app:init");
                initGA();
@@ -120,19 +120,19 @@ function init() {
             },500);
 
 
-        },function() {
+        }.bind(this),function() {
             // Hide loading overlay and show error page on initialization failure
             $("#app-loading-overlay").hide();
             $("#app-error-page").show();
             app.trigger("app:fail"); 
-        } );
+        }.bind(this) );
     }.bind(this), "jsonp").fail(function(jqXHR, textStatus, errorThrown) {
         // Handle JSONP request failure (API connection error)
         $error("Failed to connect to API: " + textStatus);
         $("#app-loading-overlay").hide();
         $("#app-error-page").show();
         app.trigger("app:fail");
-    });
+    }.bind(this));
 
 }
 
@@ -166,8 +166,8 @@ function initCached() {
         },
         error: function(xhr, status, error) {
             console.warn("Failed to load cached init data, falling back to API:", error);
-            // Fallback to regular initialization (only once, no infinite loop)
-            init();
+            // Fallback to regular initialization (pass true to prevent infinite loop)
+            init(true);
         }
     });
 }
