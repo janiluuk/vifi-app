@@ -3514,7 +3514,7 @@ ul#subscription-benefit-list li .icon {
     width: 100%;
     height: 100%;
     background-color: rgba(32, 17, 51, 0.95);
-    z-index: 999999;
+    z-index: 9999;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -3556,7 +3556,7 @@ ul#subscription-benefit-list li .icon {
     width: 100%;
     height: 100%;
     background-color: rgba(32, 17, 51, 0.98);
-    z-index: 999998;
+    z-index: 9998;
     display: flex;
     justify-content: center;
     align-items: center;

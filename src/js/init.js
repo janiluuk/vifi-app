@@ -149,6 +149,14 @@ function initCached() {
                 // Hide loading overlay on successful initialization
                 $("#app-loading-overlay").hide();
                 app.trigger("app:ready");
+                
+                if (App.Settings.sentry_enabled === true) {
+                    Sentry.init({ dsn: App.Settings.sentry_dsn});
+                }
+                setTimeout(function() {
+                    initFB();
+                    window.scrollTo(0,1);
+                },500);
             }, function() {
                 // Hide loading overlay and show error page on initialization failure
                 $("#app-loading-overlay").hide();
@@ -158,7 +166,7 @@ function initCached() {
         },
         error: function(xhr, status, error) {
             console.warn("Failed to load cached init data, falling back to API:", error);
-            // Fallback to regular initialization
+            // Fallback to regular initialization (only once, no infinite loop)
             init();
         }
     });
