@@ -311,3 +311,13 @@ $(document).on("click", "a[href^='/']", function(event) {
   }
     return false;
 });
+
+$(document).ready(function() {
+    // Use initCached() instead of init() for faster load with cached data
+    // Requires CACHED_INIT_URL environment variable to be set
+    // Falls back to init() if cached data fails to load
+    // Example: initCached();
+    init();
+});
+
+})();

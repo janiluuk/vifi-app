@@ -6,6 +6,9 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:headed": "playwright test --headed",
     "lint": "eslint src/js/ tests/",
     "lint:fix": "eslint src/js/ tests/ --fix",
     "build": "webpack --mode production",
@@ -28,6 +31,7 @@
   "devDependencies": {
     "@babel/core": "^7.23.5",
     "@babel/preset-env": "^7.23.5",
+    "@playwright/test": "^1.58.0",
     "babel-jest": "^29.7.0",
     "babel-loader": "^10.0.0",
     "copy-webpack-plugin": "^13.0.1",
