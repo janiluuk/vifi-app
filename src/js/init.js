@@ -1,4 +1,7 @@
 $(document).ready(function() {
+    // Show loading overlay when app starts
+    $("#app-loading-overlay").show();
+    
     // Use initCached() instead of init() for faster load with cached data
     // Requires CACHED_INIT_URL environment variable to be set
     // Falls back to init() if cached data fails to load
@@ -104,6 +107,8 @@ function init() {
     var url = App.Settings.Api.url+"search?&short=1&limit="+App.Settings.Search.initial_film_amount+"&api_key="+App.Settings.Api.key+"&jsoncallback=?";
     $.getJSON(url, function(data) {
         $.when(initApp(data)).then(function() {
+            // Hide loading overlay on successful initialization
+            $("#app-loading-overlay").hide();
             app.trigger("app:ready");
 
             if (App.Settings.sentry_enabled === true) {
@@ -116,8 +121,18 @@ function init() {
 
 
         },function() {
-            app.trigger("app:fail"); } );
-    }.bind(this), "jsonp");
+            // Hide loading overlay and show error page on initialization failure
+            $("#app-loading-overlay").hide();
+            $("#app-error-page").show();
+            app.trigger("app:fail"); 
+        } );
+    }.bind(this), "jsonp").fail(function(jqXHR, textStatus, errorThrown) {
+        // Handle JSONP request failure (API connection error)
+        $error("Failed to connect to API: " + textStatus);
+        $("#app-loading-overlay").hide();
+        $("#app-error-page").show();
+        app.trigger("app:fail");
+    });
 
 }
 
@@ -130,7 +145,16 @@ function initCached() {
         timeout: 2000,  // 2 second timeout for cached data
         success: function(data) {
             console.log("Loaded cached init data from:", cachedUrl);
-            initApp(data);
+            $.when(initApp(data)).then(function() {
+                // Hide loading overlay on successful initialization
+                $("#app-loading-overlay").hide();
+                app.trigger("app:ready");
+            }, function() {
+                // Hide loading overlay and show error page on initialization failure
+                $("#app-loading-overlay").hide();
+                $("#app-error-page").show();
+                app.trigger("app:fail");
+            });
         },
         error: function(xhr, status, error) {
             console.warn("Failed to load cached init data, falling back to API:", error);

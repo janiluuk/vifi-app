@@ -17,6 +17,22 @@
         <meta name="keywords" content="video streaming, movies online, film rental, online movies, watch movies, streaming service, vod, video on demand"/>
     </head>
     <body>
+    <!-- Loading Overlay -->
+    <div id="app-loading-overlay" style="display: none;">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Loading...</div>
+    </div>
+    
+    <!-- API Error Page -->
+    <div id="app-error-page" style="display: none;">
+        <div class="error-container">
+            <div class="error-icon">⚠️</div>
+            <h1 class="error-title">Connection Error</h1>
+            <p class="error-message">Unable to connect to the service. Please check your internet connection and try again.</p>
+            <button class="error-retry-btn" onclick="location.reload()">Retry</button>
+        </div>
+    </div>
+    
     <div id="dialog"></div>
     <div id="fb-root"></div>
     <div id="quickbar-overlay"></div>
