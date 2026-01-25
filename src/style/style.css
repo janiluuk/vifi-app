@@ -3505,3 +3505,108 @@ ul#subscription-benefit-list li .icon {
         -o-transform: translateX(-100%);
     }
 }
+
+/* Loading Overlay */
+#app-loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(32, 17, 51, 0.95);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.loading-spinner {
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top: 4px solid #2EA849;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    -webkit-animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+
+.loading-text {
+    color: #fff;
+    font-size: 1.2em;
+    margin-top: 20px;
+    font-family: 'Open Sans', Helvetica, Arial;
+}
+
+/* API Error Page */
+#app-error-page {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(32, 17, 51, 0.98);
+    z-index: 9998;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.error-container {
+    text-align: center;
+    padding: 40px;
+    max-width: 500px;
+    background-color: rgba(50, 46, 84, 0.9);
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.error-icon {
+    font-size: 4em;
+    margin-bottom: 20px;
+}
+
+.error-title {
+    color: #fff;
+    font-size: 2em;
+    margin: 0 0 20px 0;
+    font-family: 'Open Sans', Helvetica, Arial;
+}
+
+.error-message {
+    color: #ccc;
+    font-size: 1.1em;
+    line-height: 1.6;
+    margin: 0 0 30px 0;
+    font-family: 'Open Sans', Helvetica, Arial;
+}
+
+.error-retry-btn {
+    background-color: #2EA849;
+    color: #fff;
+    border: none;
+    padding: 12px 30px;
+    font-size: 1.1em;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Open Sans', Helvetica, Arial;
+    transition: background-color 0.3s ease;
+}
+
+.error-retry-btn:hover {
+    background-color: #25873a;
+}
+
+.error-retry-btn:active {
+    transform: scale(0.98);
+}

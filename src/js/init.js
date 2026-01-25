@@ -1,4 +1,15 @@
-(function() {
+$(document).ready(function() {
+    // Show loading overlay when app starts
+    $("#app-loading-overlay").show();
+    
+    // Use initCached() instead of init() for faster load with cached data
+    // Requires CACHED_INIT_URL environment variable to be set
+    // Falls back to init() if cached data fails to load
+    // Example: initCached();
+    init();
+});
+
+
 
 window.app = _.extend({}, Backbone.Events);
 
@@ -89,13 +100,15 @@ window.app = _.extend({}, Backbone.Events);
 
 
 
-function init() {
+function init(skipCache) {
 
     app.trigger("app:init");
                initGA();
     var url = App.Settings.Api.url+"search?&short=1&limit="+App.Settings.Search.initial_film_amount+"&api_key="+App.Settings.Api.key+"&jsoncallback=?";
     $.getJSON(url, function(data) {
         $.when(initApp(data)).then(function() {
+            // Hide loading overlay on successful initialization
+            $("#app-loading-overlay").hide();
             app.trigger("app:ready");
 
             if (App.Settings.sentry_enabled === true) {
@@ -107,9 +120,19 @@ function init() {
             },500);
 
 
-        },function() {
-            app.trigger("app:fail"); } );
-    }.bind(this), "jsonp");
+        }.bind(this),function() {
+            // Hide loading overlay and show error page on initialization failure
+            $("#app-loading-overlay").hide();
+            $("#app-error-page").show();
+            app.trigger("app:fail"); 
+        }.bind(this) );
+    }.bind(this), "jsonp").fail(function(jqXHR, textStatus, errorThrown) {
+        // Handle JSONP request failure (API connection error)
+        $error("Failed to connect to API: " + textStatus);
+        $("#app-loading-overlay").hide();
+        $("#app-error-page").show();
+        app.trigger("app:fail");
+    }.bind(this));
 
 }
 
@@ -122,12 +145,29 @@ function initCached() {
         timeout: 2000,  // 2 second timeout for cached data
         success: function(data) {
             console.log("Loaded cached init data from:", cachedUrl);
-            initApp(data);
+            $.when(initApp(data)).then(function() {
+                // Hide loading overlay on successful initialization
+                $("#app-loading-overlay").hide();
+                app.trigger("app:ready");
+                
+                if (App.Settings.sentry_enabled === true) {
+                    Sentry.init({ dsn: App.Settings.sentry_dsn});
+                }
+                setTimeout(function() {
+                    initFB();
+                    window.scrollTo(0,1);
+                },500);
+            }, function() {
+                // Hide loading overlay and show error page on initialization failure
+                $("#app-loading-overlay").hide();
+                $("#app-error-page").show();
+                app.trigger("app:fail");
+            });
         },
         error: function(xhr, status, error) {
             console.warn("Failed to load cached init data, falling back to API:", error);
-            // Fallback to regular initialization
-            init();
+            // Fallback to regular initialization (pass true to prevent infinite loop)
+            init(true);
         }
     });
 }
